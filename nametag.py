@@ -22,47 +22,35 @@ try:
     logging.info("init and Clear")
     epd.init()
     epd.Clear()
-    font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
-    font18 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 18)
-    font30 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 40)
     
     # Drawing on the Horizontal image
-    logging.info("1.Drawing on the Horizontal image...")
-    Himage = Image.new('RGB', (epd.width, epd.height), 0xffffff)  # 255: clear the frame
-    draw = ImageDraw.Draw(Himage)
-    draw.text((10, 0), 'hello world', font = font24, fill = 0)
-    # draw.text((10, 20), '5.83inch e-Paper', font = font24, fill = 0)
-    # draw.text((10, 160), u'Black', font = font24, fill = epd.BLACK)
-    # draw.text((10, 200), u'Orange', font = font24, fill = epd.ORANGE)
-    # draw.text((10, 240), u'Green', font = font24, fill = epd.GREEN)
-    # draw.text((10, 280), u'Blue', font = font24, fill = epd.BLUE)
-    # draw.text((10, 320), u'Red', font = font24, fill = epd.RED)
-    # draw.text((10, 360), u'Yellow', font = font24, fill = epd.YELLOW)
-    # draw.line((20, 50, 70, 100), fill = 0)
-    # draw.line((70, 50, 20, 100), fill = 0)
-    # draw.rectangle((20, 50, 70, 100), outline = 0)
-    # draw.line((165, 50, 165, 100), fill = 0)
-    # draw.line((140, 75, 190, 75), fill = 0)
-    # draw.arc((140, 50, 190, 100), 0, 360, fill = 0)
-    # draw.rectangle((80, 50, 130, 100), fill = 0)
-    # draw.chord((200, 50, 250, 100), 0, 360, fill = 0)
-    # epd.display(epd.getbuffer(Himage))
-    # time.sleep(3)
+    logging.info("1.Drawing the image...")
     
-    
-    # logging.info("3.read bmp file")
-    # Himage = Image.open(os.path.join(picdir, '5in65f0.bmp'))
-    # epd.display(epd.getbuffer(Himage))
-    # time.sleep(3)
-    
-    # Himage = Image.open(os.path.join(picdir, '5in65f.bmp'))
-    # epd.display(epd.getbuffer(Himage))
-    # time.sleep(3)
-    
-    # epd.Clear()
-    # logging.info("Goto Sleep...")
+    # Create an image to draw on
+    image = Image.new('RGB', (epd.width, epd.height), (255, 255, 255))  # White background
+    draw = ImageDraw.Draw(image)
 
-    # draw.text((10, 0), 'SLEEEEEP', font = font24, fill = 0)
+    try:
+        font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 80)  # Font size 80
+    except IOError:
+        print("Font file not found. Using default.")
+        font = ImageFont.load_default()
+
+    # Get the width and height of the text to be drawn
+    text = "Hey, I'm Isaac!"
+    text_width, text_height = draw.textsize(text, font=font)
+
+    # Center the text in the middle of the e-paper display
+    x = (epd.width - text_width) / 2
+    y = (epd.height - text_height) / 2
+
+    # Draw the text
+    draw.text((x, y), text, font=font, fill=(0, 0, 0))  # Black text
+
+    # Display the image on the e-paper
+    epd.display(epd.getbuffer(image))
+
+    # Put the display to sleep to save power
     epd.sleep()
     
 except IOError as e:
