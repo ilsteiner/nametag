@@ -135,15 +135,8 @@ try:
     # Draw greeting and pronouns
     greeting = "Hey, I'm Isaac!"
     pronouns = "he/him"
-    draw.text((20, 20), greeting, font=font_large, fill=(0, 0, 0))  # Black text
-    draw.text((20, 90), pronouns, font=font_medium, fill=(0, 0, 0))  # Black text
-
-    # Center the text in the middle of the e-paper display
-    x = (epd.width - text_width) / 2
-    y = (epd.height - text_height) / 2
-
-    # Draw the text
-    draw.text((x, y), text, font=font, fill=(0, 0, 0))  # Black text
+    draw.text((20, 20), greeting, font=font, fill=(0, 0, 0))  # Black text
+    draw.text((20, 90), pronouns, font=font, fill=(0, 0, 0))  # Black text
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
