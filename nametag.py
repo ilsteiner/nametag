@@ -126,17 +126,35 @@ try:
     draw = ImageDraw.Draw(image)
 
     try:
-        font = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 80)  # Font size 80
+        font_large = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 80)
+        font_small = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 40)
     except IOError:
         print("Font file not found. Using default.")
-        font = ImageFont.load_default()
+        font_large = ImageFont.load_default()
+        font_small = ImageFont.load_default()
 
     # Get the width and height of the text to be drawn
     # Draw greeting and pronouns
     greeting = "Hey, I'm Isaac!"
     pronouns = "he/him"
-    draw.text((20, 20), greeting, font=font, fill=(0, 0, 0))  # Black text
-    draw.text((20, 90), pronouns, font=font, fill=(0, 0, 0))  # Black text
+    temperature = f"Temp: {current_temperature_2m:.1f}°F"
+    
+    # Calculate text sizes
+    greeting_width, greeting_height = draw.textsize(greeting, font=font_large)
+    pronouns_width, pronouns_height = draw.textsize(pronouns, font=font_small)
+    temperature_width, temperature_height = draw.textsize(temperature, font=font_small)
+
+    # Calculate total height for centered positioning
+    total_height = greeting_height + pronouns_height + temperature_height + 40  # 40 pixels padding between lines
+
+    # Calculate starting position to center text
+    x = (epd.width - max(greeting_width, pronouns_width, temperature_width)) / 2
+    y = (epd.height - total_height) / 2
+
+    # Draw text centered
+    draw.text((x, y), greeting, font=font_large, fill=(0, 0, 0))  # Black text
+    draw.text((x, y + greeting_height + 20), pronouns, font=font_small, fill=(0, 0, 0))
+    draw.text((x, y + greeting_height + pronouns_height + 40), temperature, font=font_small, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
