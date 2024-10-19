@@ -133,28 +133,40 @@ try:
         font_large = ImageFont.load_default()
         font_small = ImageFont.load_default()
 
-    # Get the width and height of the text to be drawn
-    # Draw greeting and pronouns
-    greeting = "Hey, I'm Isaac!"
+    # Text strings
+    greeting = "Hey, I'm"
+    name = "Isaac!"
     pronouns = "he/him"
     temperature = f"Temp: {current_temperature_2m:.1f}°F"
-    
+
     # Calculate text sizes
-    greeting_width, greeting_height = draw.textsize(greeting, font=font_large)
-    pronouns_width, pronouns_height = draw.textsize(pronouns, font=font_small)
-    temperature_width, temperature_height = draw.textsize(temperature, font=font_small)
+    # Calculate text sizes using textbbox
+    greeting_bbox = draw.textbbox((0, 0), greeting, font=font_large)
+    greeting_width, greeting_height = greeting_bbox[2] - greeting_bbox[0], greeting_bbox[3] - greeting_bbox[1]
+
+    name_bbox = draw.textbbox((0, 0), name, font=font_large)
+    name_width, name_height = name_bbox[2] - name_bbox[0], name_bbox[3] - name_bbox[1]
+
+    pronouns_bbox = draw.textbbox((0, 0), pronouns, font=font_small)
+    pronouns_width, pronouns_height = pronouns_bbox[2] - pronouns_bbox[0], pronouns_bbox[3] - pronouns_bbox[1]
+
+    temperature_bbox = draw.textbbox((0, 0), temperature, font=font_small)
+    temperature_width, temperature_height = temperature_bbox[2] - temperature_bbox[0], temperature_bbox[3] - temperature_bbox[1]
+
 
     # Calculate total height for centered positioning
-    total_height = greeting_height + pronouns_height + temperature_height + 40  # 40 pixels padding between lines
+    total_height = greeting_height + pronouns_height + temperature_height + 60  # 60 pixels padding between lines
 
     # Calculate starting position to center text
-    x = (epd.width - max(greeting_width, pronouns_width, temperature_width)) / 2
+    x_greeting = (epd.width - greeting_width) / 2
+    x_name = (epd.width - name_width) / 2
     y = (epd.height - total_height) / 2
 
     # Draw text centered
-    draw.text((x, y), greeting, font=font_large, fill=(0, 0, 0))  # Black text
-    draw.text((x, y + greeting_height + 20), pronouns, font=font_small, fill=(0, 0, 0))
-    draw.text((x, y + greeting_height + pronouns_height + 40), temperature, font=font_small, fill=(0, 0, 0))
+    draw.text((x_greeting, y), greeting, font=font_large, fill=(0, 0, 0))  # Black text for greeting
+    draw.text((x_name, y + greeting_height), name, font=font_large, fill=(255, 0, 0))  # Red text for name
+    draw.text((x_greeting, y + greeting_height + name_height + 20), pronouns, font=font_small, fill=(0, 0, 0))
+    draw.text((x_greeting, y + greeting_height + name_height + pronouns_height + 40), temperature, font=font_small, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
