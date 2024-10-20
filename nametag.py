@@ -89,15 +89,15 @@ try:
         font_large = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 75)
         font_small = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 40)
         font_tiny = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 20)
-        font_emoji = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf', 75)
-        font_emoji2 = ImageFont.truetype('/usr/share/fonts/truetype/font-awesome/fontawesome-webfont.ttf', 75)
+        # font_emoji = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf', 75)
+        # font_emoji2 = ImageFont.truetype('/usr/share/fonts/truetype/font-awesome/fontawesome-webfont.ttf', 75)
     except IOError:
         print("Font file not found. Using default.")
         font_large = ImageFont.load_default()
         font_small = ImageFont.load_default()
         font_tiny = ImageFont.load_default()
-        font_emoji = ImageFont.load_default()
-        font_emoji2 = ImageFont.load_default()
+        # font_emoji = ImageFont.load_default()
+        # font_emoji2 = ImageFont.load_default()
 
     # Text strings
     greeting = "I'm"
@@ -159,14 +159,14 @@ try:
 
     # Draw Today Block
     draw.text((today_block_x + padding, today_block_y + padding), "Today", font=font_small, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + font_small.size + 2 * padding), f"{weather_icon_today}", font=font_emoji2, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + font_small.size + 2 * padding), f"{weather_icon_today}", font=font_tiny, fill=(0, 0, 0))
     draw.text((today_block_x + padding, today_block_y + font_small.size + 3 * padding + font_large.size), f"Max: {today_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
     draw.text((today_block_x + padding, today_block_y + font_small.size + 4 * padding + font_large.size), f"Min: {today_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
     draw.text((today_block_x + padding, today_block_y + font_small.size + 5 * padding + font_large.size), f"Precip: {today_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
 
     # Draw Tomorrow Block
     draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding), "Tomorrow", font=font_small, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 2 * padding), f"{weather_icon_tomorrow}", font=font_emoji2, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 2 * padding), f"{weather_icon_tomorrow}", font=font_tiny, fill=(0, 0, 0))
     draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 3 * padding + font_large.size), f"Max: {tomorrow_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
     draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 4 * padding + font_large.size), f"Min: {tomorrow_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
     draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 5 * padding + font_large.size), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
