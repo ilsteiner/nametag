@@ -15,6 +15,8 @@ cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
 openmeteo = openmeteo_requests.Client(session=retry_session)
 
+logging.basicConfig(level=logging.DEBUG)
+
 # Make sure all required weather variables are listed here
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
@@ -84,8 +86,8 @@ def get_weather_icon_path(weather_code, is_night=False):
 
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now()
-print(responses)
-print(daily_sunset)
+logging.info(responses)
+logging.info(daily_sunset)
 sunset_time = datetime.fromisoformat(daily_sunset[0])
 
 is_night = current_time > sunset_time
@@ -93,8 +95,6 @@ is_night = current_time > sunset_time
 # Get appropriate icons for today and tomorrow
 weather_icon_today_path = get_weather_icon_path(today_weather_code, is_night)
 weather_icon_tomorrow_path = get_weather_icon_path(tomorrow_weather_code, False)  # Assume tomorrow is daytime
-
-logging.basicConfig(level=logging.DEBUG)
 
 try:
     logging.info("Nametag start")
