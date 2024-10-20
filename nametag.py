@@ -36,8 +36,8 @@ daily = response.Daily()
 daily_weather_code = daily.Variables(0).ValuesAsNumpy()  # Weather codes for icons
 daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()  # Max temps
 daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()  # Min temps
-sunrise = daily.Variables(3).ValuesAsNumpy() # Sunrise
-sunset = daily.Variables(4).ValuesAsNumpy() # Sunset
+daily_sunrise = daily.Variables(3).ValuesAsNumpy() # Sunrise
+daily_sunset = daily.Variables(4).ValuesAsNumpy() # Sunset
 daily_precipitation_probability = daily.Variables(5).ValuesAsNumpy()  # Precipitation probabilities
 
 # Extract today's and tomorrow's data
@@ -84,7 +84,7 @@ def get_weather_icon_path(weather_code, is_night=False):
 
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now()
-sunset_time = datetime.fromisoformat(sunset[0])
+sunset_time = datetime.fromisoformat(daily_sunset[0])
 
 is_night = current_time > sunset_time
 
