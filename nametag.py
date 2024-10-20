@@ -7,7 +7,7 @@ import logging
 from waveshare_epd import epd5in65f
 from PIL import Image, ImageDraw, ImageFont
 import openmeteo_requests
-import Pandas as pd
+import pandas as pd
 import requests_cache
 from retry_requests import retry
 
