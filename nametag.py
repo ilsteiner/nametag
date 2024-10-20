@@ -51,25 +51,30 @@ daily_data = {"date": pd.date_range(
 	inclusive = "left"
 )}
 daily_data["weather_code"] = daily_weather_code
-daily_data["temperature_2m_max"] = daily_temperature_2m_max
-daily_data["temperature_2m_min"] = daily_temperature_2m_min
+daily_data["temp_high"] = daily_temperature_2m_max
+daily_data["temp_low"] = daily_temperature_2m_min
 daily_data["sunrise"] = daily_sunrise
 daily_data["sunset"] = daily_sunset
+daily_data("precip") = daily_precipitation_probability
 
-daily_dataframe = pd.DataFrame(data = daily_data)
+weather_dataframe = pd.DataFrame(data = daily_data)
 
-logging.info(daily_dataframe)
+logging.info(weather_dataframe)
 
 # Extract today's and tomorrow's data
-today_max = daily_temperature_2m_max[0]
-today_min = daily_temperature_2m_min[0]
-today_precip_prob = daily_precipitation_probability[0]
-today_weather_code = daily_weather_code[0]
+today_max = weather_dataframe[0]["temp_high"]
+today_min = weather_dataframe[0]["temp_low"]
+today_precip_prob = weather_dataframe[0]["precip"]
+today_weather_code = weather_dataframe[0]["weather_code"]
+today_sunrise = weather_dataframe[0]['sunrise']
+today_sunset = weather_dataframe[0]["sunset"]
 
-tomorrow_max = daily_temperature_2m_max[1]
-tomorrow_min = daily_temperature_2m_min[1]
-tomorrow_precip_prob = daily_precipitation_probability[1]
-tomorrow_weather_code = daily_weather_code[1]
+tomorrow_max = weather_dataframe[1]["temp_high"]
+tomorrow_min = weather_dataframe[1]["temp_low"]
+tomorrow_precip_prob = weather_dataframe[1]["precip"]
+tomorrow_weather_code = weather_dataframe[1]["weather_code"]
+tomorrow_sunrise = weather_dataframe[1]['sunrise']
+tomorrow_sunset = weather_dataframe[1]["sunset"]
 
 def get_weather_icon_path(weather_code, is_night=False):
     day_icons = {
@@ -104,8 +109,8 @@ def get_weather_icon_path(weather_code, is_night=False):
 
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now()
-logging.info("Sunset: " + str(daily.Variables(4).ValuesAsNumpy()))
-sunset_time = datetime.fromisoformat(daily_sunset[0])
+logging.info("Sunset: " + today_sunset)
+sunset_time = datetime.fromisoformat(today_sunset)
 
 is_night = current_time > sunset_time
 
