@@ -73,8 +73,8 @@ tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = str(weather_dataframe.iloc[1]['sunrise'])
-tomorrow_sunset = str(weather_dataframe.iloc[1]["sunset"])
+tomorrow_sunrise = weather_dataframe.iloc[1]['sunrise']
+tomorrow_sunset = weather_dataframe.iloc[1]["sunset"]
 
 def get_weather_icon_path(weather_code, is_night=False):
     day_icons = {
