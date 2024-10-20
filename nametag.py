@@ -20,13 +20,12 @@ params = {
     "latitude": 52.52,
     "longitude": 13.41,
     "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation"],
-    "hourly": ["temperature_2m", "apparent_temperature", "precipitation_probability", "precipitation"],
-    "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "apparent_temperature_max", "apparent_temperature_min", "sunrise", "sunset"],
+    "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability"],
     "temperature_unit": "fahrenheit",
     "wind_speed_unit": "mph",
     "precipitation_unit": "inch",
     "timezone": "America/Los_Angeles",
-    "forecast_days": 3
+    "forecast_days": 2
 }
 responses = openmeteo.weather_api(url, params=params)
 
@@ -36,10 +35,42 @@ response = responses[0]
 current = response.Current()
 current_temperature_2m = current.Variables(0).Value()
 
-# Process daily data
+# Process daily data for today and tomorrow
 daily = response.Daily()
-daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()[0]
-daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()[0]
+daily_weather_code = daily.Variables(0).ValuesAsNumpy()  # Weather codes for icons
+daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()  # Max temps
+daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()  # Min temps
+daily_precipitation_probability = daily.Variables(3).ValuesAsNumpy()  # Precipitation probabilities
+
+# Extract today's and tomorrow's data
+today_max = daily_temperature_2m_max[0]
+today_min = daily_temperature_2m_min[0]
+today_precip_prob = daily_precipitation_probability[0]
+today_weather_code = daily_weather_code[0]
+
+tomorrow_max = daily_temperature_2m_max[1]
+tomorrow_min = daily_temperature_2m_min[1]
+tomorrow_precip_prob = daily_precipitation_probability[1]
+tomorrow_weather_code = daily_weather_code[1]
+
+# Function to map weather code to an icon representation
+def get_weather_icon(weather_code):
+    icons = {
+        0: "☀️",  # Clear sky
+        1: "🌤️",  # Mainly clear
+        2: "⛅",   # Partly cloudy
+        3: "☁️",  # Overcast
+        45: "🌫️",  # Fog
+        51: "🌦️",  # Drizzle
+        61: "🌧️",  # Rain
+        71: "❄️",  # Snow
+        95: "⛈️",  # Thunderstorm
+    }
+    return icons.get(weather_code, "❓")  # Default icon if code is unknown
+
+# Weather icons for today and tomorrow
+weather_icon_today = get_weather_icon(today_weather_code)
+weather_icon_tomorrow = get_weather_icon(tomorrow_weather_code)
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -70,8 +101,6 @@ try:
     greeting = "I'm"
     name = "Isaac!"
     pronouns = "he/him"
-    temperature = f"Temp: {current_temperature_2m:.1f}°F"
-    weather_forecast = f"Max: {daily_temperature_2m_max:.1f}°F, Min: {daily_temperature_2m_min:.1f}°F"
 
     # Calculate text sizes
     greeting_bbox = draw.textbbox((0, 0), greeting, font=font_large)
@@ -83,10 +112,7 @@ try:
     pronouns_bbox = draw.textbbox((0, 0), pronouns, font=font_small)
     pronouns_width, pronouns_height = pronouns_bbox[2] - pronouns_bbox[0], pronouns_bbox[3] - pronouns_bbox[1]
 
-    weather_bbox = draw.textbbox((0, 0), weather_forecast, font=font_small)
-    weather_width, weather_height = weather_bbox[2] - weather_bbox[0], weather_bbox[3] - weather_bbox[1]
-
-    # Calculate positions
+    # Calculate positions for greeting and pronouns
     margin = 20
     padding = 30
 
@@ -101,16 +127,24 @@ try:
     row2y = row1y + greeting_height + padding
     pronouns_coord = (row2x, row2y)
 
-    # Row 3 (Weather Forecast)
+    # Row 3 (Weather Forecast - Today and Tomorrow)
     row3x = margin
     row3y = row2y + pronouns_height + padding
-    weather_coord = (row3x, row3y)
 
-    # Draw text at specified positions
+    today_coord = (row3x, row3y)
+    today_text = f"Today: {weather_icon_today} Max: {today_max:.1f}°F Min: {today_min:.1f}°F Precip: {today_precip_prob:.0f}%"
+
+    tomorrow_coord = (row3x, row3y + 60)  # 60 pixels below today's forecast
+    tomorrow_text = f"Tomorrow: {weather_icon_tomorrow} Max: {tomorrow_max:.1f}°F Min: {tomorrow_min:.1f}°F Precip: {tomorrow_precip_prob:.0f}%"
+
+    # Draw greeting, name, pronouns
     draw.text(greeting_coord, greeting, font=font_large, fill=(0, 0, 0))
     draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
     draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
-    draw.text(weather_coord, weather_forecast, font=font_small, fill=(0, 0, 0))
+
+    # Draw weather forecasts for today and tomorrow
+    draw.text(today_coord, today_text, font=font_small, fill=(0, 0, 0))
+    draw.text(tomorrow_coord, tomorrow_text, font=font_small, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
