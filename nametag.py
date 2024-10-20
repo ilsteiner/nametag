@@ -7,6 +7,7 @@ import logging
 from waveshare_epd import epd5in65f
 from PIL import Image, ImageDraw, ImageFont
 import openmeteo_requests
+import Pandas as pd
 import requests_cache
 from retry_requests import retry
 
@@ -42,6 +43,22 @@ daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()  # Min temps
 daily_sunrise = daily.Variables(3).ValuesAsNumpy() # Sunrise
 daily_sunset = daily.Variables(4).ValuesAsNumpy() # Sunset
 daily_precipitation_probability = daily.Variables(5).ValuesAsNumpy()  # Precipitation probabilities
+
+daily_data = {"date": pd.date_range(
+	start = pd.to_datetime(daily.Time(), unit = "s", utc = True),
+	end = pd.to_datetime(daily.TimeEnd(), unit = "s", utc = True),
+	freq = pd.Timedelta(seconds = daily.Interval()),
+	inclusive = "left"
+)}
+daily_data["weather_code"] = daily_weather_code
+daily_data["temperature_2m_max"] = daily_temperature_2m_max
+daily_data["temperature_2m_min"] = daily_temperature_2m_min
+daily_data["sunrise"] = daily_sunrise
+daily_data["sunset"] = daily_sunset
+
+daily_dataframe = pd.DataFrame(data = daily_data)
+
+logging.info(daily_dataframe)
 
 # Extract today's and tomorrow's data
 today_max = daily_temperature_2m_max[0]
