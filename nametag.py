@@ -138,9 +138,35 @@ try:
     draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
     draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
 
-    # Draw weather forecasts for today and tomorrow
-    draw.text(today_coord, today_text, font=font_small, fill=(0, 0, 0))
-    draw.text(tomorrow_coord, tomorrow_text, font=font_small, fill=(0, 0, 0))
+    # Row 3 (Weather Forecast - Today and Tomorrow)
+    row3y = row2y + pronouns_height + 2 * padding
+    block_width = (epd.width - 3 * margin) // 2  # Divide the width into two blocks
+    block_height = epd.height // 2 - row3y
+
+    # Today's Forecast Block
+    today_block_x = margin
+    today_block_y = row3y
+
+    # Tomorrow's Forecast Block
+    tomorrow_block_x = today_block_x + block_width + margin
+    tomorrow_block_y = today_block_y
+
+    # Draw Today Block
+    draw.rectangle((today_block_x, today_block_y, today_block_x + block_width, today_block_y + block_height), outline=(0, 0, 0), width=3)
+    draw.text((today_block_x + padding, today_block_y + padding), "Today", font=font_large, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + font_large.size + 2 * padding), f"{weather_icon_today}", font=font_large, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + font_large.size + 3 * padding), f"Max: {today_max:.1f}°F", font=font_small, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + font_large.size + 4 * padding), f"Min: {today_min:.1f}°F", font=font_small, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + font_large.size + 5 * padding), f"Precip: {today_precip_prob:.0f}%", font=font_small, fill=(0, 0, 0))
+
+    # Draw Tomorrow Block
+    draw.rectangle((tomorrow_block_x, tomorrow_block_y, tomorrow_block_x + block_width, tomorrow_block_y + block_height), outline=(0, 0, 0), width=3)
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding), "Tomorrow", font=font_large, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_large.size + 2 * padding), f"{weather_icon_tomorrow}", font=font_large, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_large.size + 3 * padding), f"Max: {tomorrow_max:.1f}°F", font=font_small, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_large.size + 4 * padding), f"Min: {tomorrow_min:.1f}°F", font=font_small, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_large.size + 5 * padding), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_small, fill=(0, 0, 0))
+
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
