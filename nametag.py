@@ -55,7 +55,7 @@ daily_data["temp_high"] = daily_temperature_2m_max
 daily_data["temp_low"] = daily_temperature_2m_min
 daily_data["sunrise"] = daily_sunrise
 daily_data["sunset"] = daily_sunset
-daily_data("precip") = daily_precipitation_probability
+daily_data("precipitation") = daily_precipitation_probability
 
 weather_dataframe = pd.DataFrame(data = daily_data)
 
