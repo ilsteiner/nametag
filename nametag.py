@@ -113,12 +113,12 @@ try:
 
     # Row 2
     row2x = margin
-    row2y = row1y + padding
+    row2y = row1y + padding + max(name_height, greeting_height)
     pronouns_coord = (row2x, row2y)
 
     # Row 3
     row3x = margin
-    row3y = row2y + padding
+    row3y = row2y + padding + pronouns_height
     row3_height = epd.height - row3y
 
     # Draw name and pronouns
