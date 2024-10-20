@@ -49,24 +49,24 @@ tomorrow_min = daily_temperature_2m_min[1]
 tomorrow_precip_prob = daily_precipitation_probability[1]
 tomorrow_weather_code = daily_weather_code[1]
 
-# Function to map weather code to an icon representation
-def get_weather_icon(weather_code):
-    icons = {
-        0: "☀️",  # Clear sky
-        1: "🌤️",  # Mainly clear
-        2: "⛅",   # Partly cloudy
-        3: "☁️",  # Overcast
-        45: "🌫️",  # Fog
-        51: "🌦️",  # Drizzle
-        61: "🌧️",  # Rain
-        71: "❄️",  # Snow
-        95: "⛈️",  # Thunderstorm
+# Function to map weather code to an image file path
+def get_weather_icon_path(weather_code):
+    icon_paths = {
+        0: "icons/sunny.png",       # Clear sky
+        1: "icons/mainly_clear.png", # Mainly clear
+        2: "icons/partly_cloudy.png", # Partly cloudy
+        3: "icons/overcast.png",    # Overcast
+        45: "icons/fog.png",        # Fog
+        51: "icons/drizzle.png",    # Drizzle
+        61: "icons/rain.png",       # Rain
+        71: "icons/snow.png",       # Snow
+        95: "icons/thunderstorm.png" # Thunderstorm
     }
-    return icons.get(weather_code, "❓")  # Default icon if code is unknown
+    return icon_paths.get(weather_code, "icons/unknown.png")  # Default icon if code is unknown
 
 # Weather icons for today and tomorrow
-weather_icon_today = get_weather_icon(today_weather_code)
-weather_icon_tomorrow = get_weather_icon(tomorrow_weather_code)
+weather_icon_today_path = get_weather_icon_path(today_weather_code)
+weather_icon_tomorrow_path = get_weather_icon_path(tomorrow_weather_code)
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -132,13 +132,7 @@ try:
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3x = margin
     row3y = row2y + pronouns_height + padding
-
-    today_coord = (row3x, row3y)
-    today_text = f"Today: {weather_icon_today} Max: {today_max:.1f}°F Min: {today_min:.1f}°F Precip: {today_precip_prob:.0f}%"
-
-    tomorrow_coord = (row3x, row3y + 60)  # 60 pixels below today's forecast
-    tomorrow_text = f"Tomorrow: {weather_icon_tomorrow} Max: {tomorrow_max:.1f}°F Min: {tomorrow_min:.1f}°F Precip: {tomorrow_precip_prob:.0f}%"
-
+    
     # Draw greeting, name, pronouns
     draw.text(greeting_coord, greeting, font=font_large, fill=(0, 0, 0))
     draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
@@ -157,19 +151,31 @@ try:
     tomorrow_block_x = today_block_x + block_width + margin
     tomorrow_block_y = today_block_y
 
-    # Draw Today Block
-    draw.text((today_block_x + padding, today_block_y + padding), "Today", font=font_small, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + font_small.size + 2 * padding), f"{weather_icon_today}", font=font_tiny, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + font_small.size + 3 * padding + font_large.size), f"Max: {today_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + font_small.size + 4 * padding + font_large.size), f"Min: {today_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + font_small.size + 5 * padding + font_large.size), f"Precip: {today_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
+    # Load and paste weather icons for today and tomorrow
+    try:
+        today_icon = Image.open(weather_icon_today_path)
+        tomorrow_icon = Image.open(weather_icon_tomorrow_path)
 
-    # Draw Tomorrow Block
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding), "Tomorrow", font=font_small, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 2 * padding), f"{weather_icon_tomorrow}", font=font_tiny, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 3 * padding + font_large.size), f"Max: {tomorrow_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 4 * padding + font_large.size), f"Min: {tomorrow_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 5 * padding + font_large.size), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
+        # Resize icons to fit within the forecast block
+        icon_size = (75, 75)
+        today_icon = today_icon.resize(icon_size)
+        tomorrow_icon = tomorrow_icon.resize(icon_size)
+
+        # Paste icons into image
+        image.paste(today_icon, (today_block_x + padding, today_block_y + padding))
+        image.paste(tomorrow_icon, (tomorrow_block_x + padding, tomorrow_block_y + padding))
+
+    except IOError as e:
+        print(f"Could not load icon: {e}")
+
+    # Draw forecast texts
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 2 * padding), f"Max: {today_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 3 * padding), f"Min: {today_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 4 * padding), f"Precip: {today_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
+
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 2 * padding), f"Max: {tomorrow_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 3 * padding), f"Min: {tomorrow_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 4 * padding), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
