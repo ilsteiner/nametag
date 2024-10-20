@@ -86,7 +86,7 @@ def get_weather_icon_path(weather_code, is_night=False):
 
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now()
-logging.info(responses)
+logging.info(response)
 logging.info(daily_sunset)
 sunset_time = datetime.fromisoformat(daily_sunset[0])
 
