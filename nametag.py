@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+from datetime import datetime
 import logging
 from waveshare_epd import epd5in65f
 from PIL import Image, ImageDraw, ImageFont
@@ -23,7 +24,8 @@ params = {
 	"temperature_unit": "fahrenheit",
 	"wind_speed_unit": "mph",
 	"precipitation_unit": "inch",
-	"timezone": "America/Los_Angeles"
+	"timezone": "America/Los_Angeles",
+    "forecast_days": 2
 }
 responses = openmeteo.weather_api(url, params=params)
 
@@ -49,24 +51,46 @@ tomorrow_min = daily_temperature_2m_min[1]
 tomorrow_precip_prob = daily_precipitation_probability[1]
 tomorrow_weather_code = daily_weather_code[1]
 
-# Function to map weather code to an image file path
-def get_weather_icon_path(weather_code):
-    icon_paths = {
-        0: "icons/sunny.png",       # Clear sky
-        1: "icons/mainly_clear.png", # Mainly clear
-        2: "icons/partly_cloudy.png", # Partly cloudy
-        3: "icons/overcast.png",    # Overcast
-        45: "icons/fog.png",        # Fog
-        51: "icons/drizzle.png",    # Drizzle
-        61: "icons/rain.png",       # Rain
-        71: "icons/snow.png",       # Snow
-        95: "icons/thunderstorm.png" # Thunderstorm
+def get_weather_icon_path(weather_code, is_night=False):
+    day_icons = {
+        0: "icons/SVG/day_clear.svg",                           # Clear sky
+        1: "icons/SVG/day_partial_cloud.svg",                   # Mainly clear
+        2: "icons/SVG/cloudy.svg",                              # Partly cloudy
+        3: "icons/SVG/overcast.svg",                            # Overcast
+        45: "icons/SVG/fog.svg",                                # Fog
+        51: "icons/SVG/mist.svg",                               # Mist
+        61: "icons/SVG/rain.svg",                               # Rain
+        71: "icons/SVG/snow.svg",                               # Snow
+        95: "icons/SVG/thunder.svg",                            # Thunderstorm
     }
-    return icon_paths.get(weather_code, "icons/unknown.png")  # Default icon if code is unknown
 
-# Weather icons for today and tomorrow
-weather_icon_today_path = get_weather_icon_path(today_weather_code)
-weather_icon_tomorrow_path = get_weather_icon_path(tomorrow_weather_code)
+    night_icons = {
+        0: "icons/SVG/night_half_moon_clear.svg",               # Clear night
+        1: "icons/SVG/night_half_moon_partial_cloud.svg",       # Partially cloudy night
+        2: "icons/SVG/cloudy.svg",                              # Partly cloudy night
+        3: "icons/SVG/overcast.svg",                            # Overcast night
+        45: "icons/SVG/fog.svg",                                # Fog at night
+        51: "icons/SVG/mist.svg",                               # Mist at night
+        61: "icons/SVG/night_half_moon_rain.svg",               # Rain at night
+        71: "icons/SVG/night_half_moon_snow.svg",               # Snow at night
+        95: "icons/SVG/thunder.svg",                            # Thunderstorm at night
+    }
+
+    if is_night:
+        return night_icons.get(weather_code, "icons/SVG/unknown.svg")  # Default icon if code is unknown
+    else:
+        return day_icons.get(weather_code, "icons/SVG/unknown.svg")    # Default icon if code is unknown
+
+
+# Determine if it's night based on the current time and sunset time
+current_time = datetime.now()
+sunset_time = datetime.fromisoformat(sunset[0])
+
+is_night = current_time > sunset_time
+
+# Get appropriate icons for today and tomorrow
+weather_icon_today_path = get_weather_icon_path(today_weather_code, is_night)
+weather_icon_tomorrow_path = get_weather_icon_path(tomorrow_weather_code, False)  # Assume tomorrow is daytime
 
 logging.basicConfig(level=logging.DEBUG)
 
@@ -132,7 +156,7 @@ try:
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3x = margin
     row3y = row2y + pronouns_height + padding
-    
+
     # Draw greeting, name, pronouns
     draw.text(greeting_coord, greeting, font=font_large, fill=(0, 0, 0))
     draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
