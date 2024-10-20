@@ -17,15 +17,13 @@ openmeteo = openmeteo_requests.Client(session=retry_session)
 # Make sure all required weather variables are listed here
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
-    "latitude": 52.52,
-    "longitude": 13.41,
-    "current": ["temperature_2m", "apparent_temperature", "is_day", "precipitation"],
-    "daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "precipitation_probability"],
-    "temperature_unit": "fahrenheit",
-    "wind_speed_unit": "mph",
-    "precipitation_unit": "inch",
-    "timezone": "America/Los_Angeles",
-    "forecast_days": 2
+	"latitude": 52.52,
+	"longitude": 13.41,
+	"daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "sunrise", "sunset", "precipitation_probability_max"],
+	"temperature_unit": "fahrenheit",
+	"wind_speed_unit": "mph",
+	"precipitation_unit": "inch",
+	"timezone": "America/Los_Angeles"
 }
 responses = openmeteo.weather_api(url, params=params)
 
@@ -40,7 +38,9 @@ daily = response.Daily()
 daily_weather_code = daily.Variables(0).ValuesAsNumpy()  # Weather codes for icons
 daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()  # Max temps
 daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()  # Min temps
-daily_precipitation_probability = daily.Variables(3).ValuesAsNumpy()  # Precipitation probabilities
+sunrise = daily.Variables(3).ValuesAsNumpy() # Sunrise
+sunset = daily.Variables(4).ValuesAsNumpy() # Sunset
+daily_precipitation_probability = daily.Variables(5).ValuesAsNumpy()  # Precipitation probabilities
 
 # Extract today's and tomorrow's data
 today_max = daily_temperature_2m_max[0]
