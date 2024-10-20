@@ -62,7 +62,7 @@ weather_dataframe = pd.DataFrame(data = daily_data)
 logging.info(weather_dataframe)
 
 # Extract today's and tomorrow's data
-today_max = weather_dataframe[0]["temp_high"]
+today_max = weather_dataframe[0].temp_high
 today_min = weather_dataframe[0]["temp_low"]
 today_precip_prob = weather_dataframe[0]["precip"]
 today_weather_code = weather_dataframe[0]["weather_code"]
