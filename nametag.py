@@ -26,6 +26,7 @@ params = {
 	"temperature_unit": "fahrenheit",
 	"wind_speed_unit": "mph",
 	"precipitation_unit": "inch",
+    "timeformat": "unixtime",
 	"timezone": "America/Los_Angeles",
     "forecast_days": 2
 }
