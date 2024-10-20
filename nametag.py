@@ -29,10 +29,6 @@ responses = openmeteo.weather_api(url, params=params)
 
 response = responses[0]
 
-# Current values
-current = response.Current()
-current_temperature_2m = current.Variables(0).Value()
-
 # Process daily data for today and tomorrow
 daily = response.Daily()
 daily_weather_code = daily.Variables(0).ValuesAsNumpy()  # Weather codes for icons
