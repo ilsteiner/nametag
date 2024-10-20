@@ -61,20 +61,20 @@ weather_dataframe = pd.DataFrame(data = daily_data)
 
 logging.info(weather_dataframe)
 
-# Extract today's and tomorrow's data
-today_max = weather_dataframe[0].temp_high
-today_min = weather_dataframe[0]["temp_low"]
-today_precip_prob = weather_dataframe[0]["precip"]
-today_weather_code = weather_dataframe[0]["weather_code"]
-today_sunrise = weather_dataframe[0]['sunrise']
-today_sunset = weather_dataframe[0]["sunset"]
+# Extract today's and tomorrow's data using iloc
+today_max = weather_dataframe.iloc[0]["temp_high"]
+today_min = weather_dataframe.iloc[0]["temp_low"]
+today_precip_prob = weather_dataframe.iloc[0]["precip"]
+today_weather_code = weather_dataframe.iloc[0]["weather_code"]
+today_sunrise = weather_dataframe.iloc[0]['sunrise']
+today_sunset = weather_dataframe.iloc[0]["sunset"]
 
-tomorrow_max = weather_dataframe[1]["temp_high"]
-tomorrow_min = weather_dataframe[1]["temp_low"]
-tomorrow_precip_prob = weather_dataframe[1]["precip"]
-tomorrow_weather_code = weather_dataframe[1]["weather_code"]
-tomorrow_sunrise = weather_dataframe[1]['sunrise']
-tomorrow_sunset = weather_dataframe[1]["sunset"]
+tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
+tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
+tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
+tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
+tomorrow_sunrise = weather_dataframe.iloc[1]['sunrise']
+tomorrow_sunset = weather_dataframe.iloc[1]["sunset"]
 
 def get_weather_icon_path(weather_code, is_night=False):
     day_icons = {
