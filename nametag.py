@@ -71,7 +71,7 @@ try:
     draw = ImageDraw.Draw(image)
 
     try:
-        font_large = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 80)
+        font_large = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 75)
         font_small = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 40)
     except IOError:
         print("Font file not found. Using default.")
@@ -79,7 +79,7 @@ try:
         font_small = ImageFont.load_default()
 
     # Text strings
-    greeting = "Hey, I'm"
+    greeting = "I'm"
     name = "Isaac!"
     pronouns = "he/him"
     temperature = f"Temp: {current_temperature_2m:.1f}°F"
@@ -101,16 +101,46 @@ try:
     weather_bbox = draw.textbbox((0, 0), weather_forecast, font=font_small)
     weather_width, weather_height = weather_bbox[2] - weather_bbox[0], weather_bbox[3] - weather_bbox[1]
 
-    # Draw text at the top
-    padding = 20
-    draw.text((padding, padding), greeting, font=font_large, fill=(0, 0, 0))
-    draw.text((padding + greeting_width + 10, padding), name, font=font_large, fill=(255, 0, 0))  # Red text for name
-    draw.text((padding, padding + greeting_height + 10), pronouns, font=font_small, fill=(0, 0, 0))
-    draw.text((padding, padding + greeting_height + pronouns_height + 20), temperature, font=font_small, fill=(0, 0, 0))
+    # Calculate positions
+    margin = 20
+    padding = 10
 
-    # Draw the weather forecast at the bottom
-    bottom_y = epd.height - weather_height - padding
-    draw.text((padding, bottom_y), weather_forecast, font=font_small, fill=(0, 0, 0))
+    # Row 1
+    row1x = margin
+    row1y = margin
+    greeting_coord = (row1x, row1y)
+    name_coord = (row1x + greeting_width + padding, row1y)
+
+    # Row 2
+    row2x = margin
+    row2y = row1y + padding
+    pronouns_coord = (row2x, row2y)
+
+    # Row 3
+    row3x = margin
+    row3y = row2y + padding
+    row3_height = epd.height - row3y
+
+    # Draw name and pronouns
+    
+    draw.text(greeting_coord, greeting, font=font_large, fill=(0, 0, 0))
+    draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
+    draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
+
+    # Draw the weather forecast
+    seperator_line_width = 2
+    weather_block_width = epd.width/2 - seperator_line_width/2 - margin
+    weather_block_height = row3_height - margin - padding
+
+    weather_today_coord = (row3x, row3y)
+    weather_tomorrow_coord = (row3x + weather_block_width, row3y)
+
+    # Weather today
+    draw.text(weather_today_coord, "Today", font=font_small, fill=(0,0,0))
+
+    # Weather tomorrow
+    draw.text(weather_tomorrow_coord, "Tomorrow", font=font_small, fill=(0,0,0))
+
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
