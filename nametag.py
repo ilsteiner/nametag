@@ -2,6 +2,7 @@
 # -*- coding:utf-8 -*-
 import sys
 import os
+import jsonpickle
 from datetime import datetime
 import logging
 from waveshare_epd import epd5in65f
@@ -86,7 +87,7 @@ def get_weather_icon_path(weather_code, is_night=False):
 
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now()
-logging.info(str(response))
+logging.info(jsonpickle.encode(response))
 logging.info(str(daily_sunset))
 sunset_time = datetime.fromisoformat(daily_sunset[0])
 
