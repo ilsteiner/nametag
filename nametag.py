@@ -66,8 +66,8 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = str(weather_dataframe.iloc[0]['sunrise'])
-today_sunset = str(weather_dataframe.iloc[0]["sunset"])
+today_sunrise = weather_dataframe.iloc[0]['sunrise']
+today_sunset = weather_dataframe.iloc[0]["sunset"]
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
