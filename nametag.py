@@ -157,14 +157,14 @@ try:
 
     # Draw Today Block
     draw.text((today_block_x + padding, today_block_y + padding), "Today", font=font_small, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + font_small.size + 2 * padding), f"{weather_icon_today}", font=font_emoji, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + font_small.size + 2 * padding), f"{weather_icon_today}", font=font_emoji2, fill=(0, 0, 0))
     draw.text((today_block_x + padding, today_block_y + font_small.size + 3 * padding + font_large.size), f"Max: {today_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
     draw.text((today_block_x + padding, today_block_y + font_small.size + 4 * padding + font_large.size), f"Min: {today_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
     draw.text((today_block_x + padding, today_block_y + font_small.size + 5 * padding + font_large.size), f"Precip: {today_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
 
     # Draw Tomorrow Block
     draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding), "Tomorrow", font=font_small, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 2 * padding), f"{weather_icon_tomorrow}", font=font_emoji, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 2 * padding), f"{weather_icon_tomorrow}", font=font_emoji2, fill=(0, 0, 0))
     draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 3 * padding + font_large.size), f"Max: {tomorrow_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
     draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 4 * padding + font_large.size), f"Min: {tomorrow_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
     draw.text((tomorrow_block_x + padding, tomorrow_block_y + font_small.size + 5 * padding + font_large.size), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
