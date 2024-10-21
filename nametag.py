@@ -46,9 +46,9 @@ def get_sun_event_timestamps(daily_dataframe, timezone):
     tomorrow_sunrise_utc = datetime.fromtimestamp(daily_dataframe.iloc[1]["sunrise"].ValuesInt64(0), tz=pytz.UTC)
     
     # Convert times from UTC to the local timezone
-    today_sunrise = pytz.UTC.localize(today_sunrise_utc).astimezone(timezone)
-    today_sunset = pytz.UTC.localize(today_sunset_utc).astimezone(timezone)
-    tomorrow_sunrise = pytz.UTC.localize(tomorrow_sunrise_utc).astimezone(timezone)
+    today_sunrise = today_sunrise_utc.astimezone(timezone)
+    today_sunset = today_sunset_utc.astimezone(timezone)
+    tomorrow_sunrise = tomorrow_sunrise_utc.astimezone(timezone)
 
     return today_sunrise, today_sunset, tomorrow_sunrise
 
