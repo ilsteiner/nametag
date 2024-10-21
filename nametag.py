@@ -273,7 +273,7 @@ try:
         tomorrow_icon_y = tomorrow_block_y + ((block_height - tomorrow_card_label_height - icon_size[0] - padding * 2))
 
         # Paste icons into image
-        image.paste(today_icon, (today_block_x + padding, math.trunc(today_icon_y)))
+        image.paste(today_icon, (today_block_x + padding, math.trunc(tomorrow_icon_y)))
         image.paste(tomorrow_icon, (tomorrow_block_x + padding, math.trunc(tomorrow_icon_y)))
 
     except IOError as e:
