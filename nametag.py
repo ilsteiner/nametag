@@ -193,7 +193,9 @@ try:
     row1y = margin
     greeting_coord = (row1x, row1y)
     name_coord = (row1x + greeting_width + padding, row1y)
-    sun_coord = (row1x + name_width + padding + greeting_width + padding, row1y)
+    sun_icon_size = 75
+    sun_coord = (row1x + name_width + padding + greeting_width + padding * 2, row1y)
+    sun_text_coord = (row1x + name_width + padding + greeting_width + padding * 2, row1y + sun_icon_size + padding)
 
     # Row 2 (Pronouns)
     row2x = margin
@@ -212,9 +214,11 @@ try:
     sun_info = get_next_sun_event(datetime.now(),today_sunrise,today_sunset,tomorrow_sunrise)
 
     sun_icon = Image.open(sun_info[1]).convert("RGBA")
-    sun_icon = sun_icon.resize((50, 50))
+    sun_icon = sun_icon.resize((sun_icon_size, sun_icon_size))
 
     image.paste(sun_icon, sun_coord, sun_icon)
+
+    draw.text(sun_text_coord, sun_info[2], font=font_small, fill=(0,0,0))
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3y = row2y + pronouns_height + padding
