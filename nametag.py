@@ -10,6 +10,7 @@ import openmeteo_requests
 import pandas as pd
 import requests_cache
 from retry_requests import retry
+import math
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
@@ -259,7 +260,7 @@ try:
         tomorrow_icon = Image.open(weather_icon_tomorrow_path).convert("RGBA")
 
         # Resize and fix backgrounds icons to fit within the forecast block
-        icon_size = round((block_width/2 - margin - padding, block_width/2 - margin - padding),0)
+        icon_size = (math.trunc(block_width/2 - margin - padding), math.trunc(block_width/2 - margin - padding))
         icon_background = Image.new("RGBA", icon_size, card_color)
 
         today_icon = today_icon.resize(icon_size)
