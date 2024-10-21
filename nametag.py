@@ -268,8 +268,8 @@ try:
         tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)        
 
         # Paste icons into image
-        image.paste(today_icon, (today_block_x + padding + today_card_label_height, today_block_y + padding))
-        image.paste(tomorrow_icon, (tomorrow_block_x + padding + tomorrow_card_label_height, tomorrow_block_y + padding))
+        image.paste(today_icon, (today_block_x + padding, today_block_y  + today_card_label_height + padding))
+        image.paste(tomorrow_icon, (tomorrow_block_x + padding, tomorrow_block_y + tomorrow_card_label_height + padding))
 
     except IOError as e:
         print(f"Could not load icon: {e}")
