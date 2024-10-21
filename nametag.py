@@ -41,8 +41,8 @@ daily = response.Daily()
 daily_weather_code = daily.Variables(0).ValuesAsNumpy()  # Weather codes for icons
 daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()  # Max temps
 daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()  # Min temps
-daily_sunrise = response["daily"]["sunrise"] # Sunrise
-daily_sunset = response["daily"]["sunset"] # Sunset
+daily_sunrise = response.Daily()["sunrise"] # Sunrise
+daily_sunset = response.Daily()["sunset"] # Sunset
 daily_precipitation_probability = daily.Variables(5).ValuesAsNumpy()  # Precipitation probabilities
 
 daily_data = {"date": pd.date_range(
