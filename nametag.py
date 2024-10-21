@@ -101,7 +101,8 @@ def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunri
     sunrise_icon_path = "icons/sunrise.png"
     sunset_icon_path = "icons/sunset.png"
 
-    logging.info("Getting sun events: sunrise " + str(today_sunrise) + " sunset " + str(today_sunset))
+    logging.info("Getting sun events: sunrise UTC " + str(today_sunrise) + " sunset UTC " + str(today_sunset))
+    logging.info("Getting sun events: sunrise local " + str(today_sunrise.astimezone(timezone)) + " sunset local " + str(today_sunset.astimezone(timezone)))
 
     if current_time < today_sunrise:
         return ("Sunrise", sunrise_icon_path, today_sunrise)
