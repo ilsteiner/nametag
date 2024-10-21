@@ -53,7 +53,7 @@ def get_sun_event_timestamps(daily_dataframe, timezone):
     logging.info("Sunset today:" + str(today_sunset_utc))
     logging.info("Sunrise tomorrow:" + str(tomorrow_sunrise_utc))
 
-    return today_sunrise, today_sunset, tomorrow_sunrise
+    return today_sunrise_utc, today_sunset_utc, tomorrow_sunrise_utc
 
 response = responses[0]
 
