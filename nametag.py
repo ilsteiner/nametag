@@ -38,10 +38,11 @@ response = responses[0]
 
 # Process daily data for today and tomorrow
 daily = response.Daily()
+logging.info("Daily" + str(daily))
 daily_weather_code = daily.Variables(0).ValuesAsNumpy()  # Weather codes for icons
 daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()  # Max temps
 daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()  # Min temps
-daily_sunrise = daily.VariableWithTime(3).ValuesAsNumpy()
+daily_sunrise = daily.VariablesWithTime(3).ValuesAsNumpy()
 daily_sunset = daily.VariablesWithTime(4).ValuesAsNumpy() # Sunset
 daily_precipitation_probability = daily.Variables(5).ValuesAsNumpy()  # Precipitation probabilities
 
