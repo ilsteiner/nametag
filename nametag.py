@@ -61,7 +61,7 @@ daily_data["precip"] = daily_precipitation_probability
 
 weather_dataframe = pd.DataFrame(data = daily_data)
 
-logging.info(weather_dataframe)
+logging.info(daily_sunrise)
 
 # Extract today's and tomorrow's data using iloc
 today_max = weather_dataframe.iloc[0]["temp_high"]
