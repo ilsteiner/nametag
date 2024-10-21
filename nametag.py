@@ -269,21 +269,24 @@ try:
         today_icon = Image.alpha_composite(icon_background, today_icon)
         tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)
 
+        today_icon_y = (block_height - (today_block_y + today_card_label_height + padding) - icon_size - padding) / 2
+        tomorrow_icon_y = (block_height - (tomorrow_block_y + tomorrow_card_label_height + padding) - icon_size - padding) / 2
+
         # Paste icons into image
-        image.paste(today_icon, (today_block_x + padding, today_block_y  + today_card_label_height + padding * 2))
-        image.paste(tomorrow_icon, (tomorrow_block_x + padding, tomorrow_block_y + tomorrow_card_label_height + padding * 2))
+        image.paste(today_icon, (today_block_x + padding, today_icon_y))
+        image.paste(tomorrow_icon, (tomorrow_block_x + padding, tomorrow_icon_y))
 
     except IOError as e:
         print(f"Could not load icon: {e}")
 
     # Draw forecast texts
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_block_y + today_card_label_height + padding * 1), f"Max: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_block_y + today_card_label_height + padding * 2), f"Min: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_block_y + today_card_label_height + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"Max: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Min: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_block_y + tomorrow_card_label_height + padding * 1), f"Max: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_block_y + tomorrow_card_label_height + padding * 2), f"Min: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_block_y + tomorrow_card_label_height + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 1), f"Max: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 2), f"Min: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
