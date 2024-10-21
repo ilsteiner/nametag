@@ -77,8 +77,8 @@ tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0),tz=timezone)
-tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0),tz=timezone)
+tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
+tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
 
 def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunrise):
     # Determine which event is next: sunrise or sunset
