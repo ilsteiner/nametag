@@ -34,7 +34,6 @@ params = {
 	"wind_speed_unit": "mph",
 	"precipitation_unit": "inch",
     "timeformat": "unixtime",
-	"timezone": timezone_string,
     "forecast_days": 2
 }
 responses = openmeteo.weather_api(url, params=params)
