@@ -41,8 +41,8 @@ daily = response.Daily()
 daily_weather_code = daily.Variables(0).ValuesAsNumpy()  # Weather codes for icons
 daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()  # Max temps
 daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()  # Min temps
-daily_sunrise = daily.Variables(3).ValuesAsNumpy().astype(str) # Sunrise
-daily_sunset = daily.Variables(4).ValuesAsNumpy().astype(str) # Sunset
+daily_sunrise = response["daily"]["sunrise"] # Sunrise
+daily_sunset = response["daily"]["sunset"] # Sunset
 daily_precipitation_probability = daily.Variables(5).ValuesAsNumpy()  # Precipitation probabilities
 
 daily_data = {"date": pd.date_range(
@@ -67,15 +67,15 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = weather_dataframe.iloc[0]['sunrise']
-today_sunset = weather_dataframe.iloc[0]["sunset"]
+today_sunrise = datetime.fromisoformat(daily_sunrise[0])
+today_sunset = datetime.fromisoformat(daily_sunset[0])
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = weather_dataframe.iloc[1]['sunrise']
-tomorrow_sunset = weather_dataframe.iloc[1]["sunset"]
+tomorrow_sunrise = datetime.fromisoformat(daily_sunrise[1])
+tomorrow_sunset = datetime.fromisoformat(daily_sunset[1])
 
 def get_weather_icon_path(wmo_code, is_night=False):
     if wmo_code == 0:
@@ -119,9 +119,8 @@ def get_weather_icon_path(wmo_code, is_night=False):
 current_time = datetime.now()
 fallback_sunset = datetime.combine(datetime.now().date(), time(17, 0))
 logging.info("Sunset: " + str(today_sunset))
-sunset_time = datetime.fromisoformat(today_sunset)
 
-is_night = str(sunset_time) != "0" and (current_time > sunset_time or current_time > fallback_sunset)
+is_night = current_time > today_sunset or current_time > fallback_sunset
 
 logging.info("Today code: " + str(today_weather_code))
 logging.info("Tomorrow code: " + str(tomorrow_weather_code))
