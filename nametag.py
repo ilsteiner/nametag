@@ -55,8 +55,8 @@ daily_data = {"date": pd.date_range(
 daily_data["weather_code"] = daily_weather_code
 daily_data["temp_high"] = daily_temperature_2m_max
 daily_data["temp_low"] = daily_temperature_2m_min
-daily_data["sunrise"] = daily_sunrise[1]
-daily_data["sunset"] = daily_sunset[1]
+daily_data["sunrise"] = daily_sunrise
+daily_data["sunset"] = daily_sunset
 daily_data["precip"] = daily_precipitation_probability
 
 weather_dataframe = pd.DataFrame(data = daily_data)
@@ -68,15 +68,15 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = weather_dataframe.iloc[0]['sunrise']
-today_sunset = weather_dataframe.iloc[0]["sunset"]
+today_sunrise = weather_dataframe.iloc[0]['sunrise'][1]
+today_sunset = weather_dataframe.iloc[0]["sunset"][1]
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = weather_dataframe.iloc[1]['sunrise']
-tomorrow_sunset = weather_dataframe.iloc[1]["sunset"]
+tomorrow_sunrise = weather_dataframe.iloc[1]['sunrise'][1]
+tomorrow_sunset = weather_dataframe.iloc[1]["sunset"][1]
 
 def get_weather_icon_path(wmo_code, is_night=False):
     if wmo_code == 0:
