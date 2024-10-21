@@ -240,6 +240,18 @@ try:
         radius=card_radius, fill=card_color
     )
 
+    # Label the cards
+    today_card_label_text = "Today"
+    today_card_label_bbox = draw.textbbox((0, 0), today_card_label_text, font=font_small)
+    today_card_label_width, today_card_label_height = today_card_label_bbox[2] - today_card_label_bbox[0], today_card_label_bbox[3] - today_card_label_bbox[1]
+
+    tomorrow_card_label_text = "Tomorrow"
+    tomorrow_card_label_bbox = draw.textbbox((0, 0), tomorrow_card_label_text, font=font_small)
+    tomorrow_card_label_width, tomorrow_card_label_height = tomorrow_card_label_bbox[2] - tomorrow_card_label_bbox[0], tomorrow_card_label_bbox[3] - tomorrow_card_label_bbox[1]
+
+    draw.text((today_block_x + padding, today_block_y + padding),today_card_label_text,font=font_small,fill=(0,0,0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding),tomorrow_card_label_text,font=font_small,fill=(0,0,0))
+
     # Load and paste weather icons for today and tomorrow
     try:
         today_icon = Image.open(weather_icon_today_path).convert("RGBA")
@@ -256,8 +268,8 @@ try:
         tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)        
 
         # Paste icons into image
-        image.paste(today_icon, (today_block_x + padding, today_block_y + padding))
-        image.paste(tomorrow_icon, (tomorrow_block_x + padding, tomorrow_block_y + padding))
+        image.paste(today_icon, (today_block_x + padding + today_card_label_height, today_block_y + padding))
+        image.paste(tomorrow_icon, (tomorrow_block_x + padding + tomorrow_card_label_height, tomorrow_block_y + padding))
 
     except IOError as e:
         print(f"Could not load icon: {e}")
