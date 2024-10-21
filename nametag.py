@@ -11,6 +11,7 @@ import pandas as pd
 import requests_cache
 from retry_requests import retry
 import math
+from datetime import datetime, time
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
@@ -117,10 +118,11 @@ def get_weather_icon_path(wmo_code, is_night=False):
 
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now()
+fallback_sunset = datetime.combine(datetime.now().date(), time(17, 0))
 logging.info("Sunset: " + str(today_sunset))
 sunset_time = datetime.fromtimestamp(today_sunset)
 
-is_night = str(sunset_time) != "0" and current_time > sunset_time
+is_night = str(sunset_time) != "0" and (current_time > sunset_time or current_time > fallback_sunset)
 
 logging.info("Today code: " + str(today_weather_code))
 logging.info("Tomorrow code: " + str(tomorrow_weather_code))
@@ -280,12 +282,12 @@ try:
         print(f"Could not load icon: {e}")
 
     # Draw forecast texts
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"Max: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Min: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
     draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 1), f"Max: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 2), f"Min: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
     draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
     # Display the image on the e-paper
