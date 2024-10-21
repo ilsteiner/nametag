@@ -70,8 +70,8 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0),tz=timezone)
-today_sunset = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunset"].ValuesInt64(0),tz=timezone)
+today_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
+today_sunset = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunset"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
