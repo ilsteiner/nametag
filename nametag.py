@@ -94,7 +94,7 @@ def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunri
     else:
         result = ("Sunrise", sunrise_icon_path, tomorrow_sunrise)
     
-    logging.info("Getting sun events: sunrise " + today_sunrise + " sunset " + today_sunset)
+    logging.info("Getting sun events: sunrise " + str(today_sunrise) + " sunset " + str(today_sunset))
     return result
 
 def get_weather_icon_path(wmo_code_float, is_night=False):
