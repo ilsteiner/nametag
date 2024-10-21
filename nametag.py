@@ -61,7 +61,7 @@ daily_data["precip"] = daily_precipitation_probability
 
 weather_dataframe = pd.DataFrame(data = daily_data)
 
-logging.info(daily_sunrise)
+logging.info("Sunrise:" + daily_sunrise)
 
 # Extract today's and tomorrow's data using iloc
 today_max = weather_dataframe.iloc[0]["temp_high"]
@@ -75,8 +75,8 @@ tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = datetime.fromisoformat(daily_sunrise[1])
-tomorrow_sunset = datetime.fromisoformat(daily_sunset[1])
+# tomorrow_sunrise = datetime.fromisoformat(daily_sunrise[1])
+# tomorrow_sunset = datetime.fromisoformat(daily_sunset[1])
 
 def get_weather_icon_path(wmo_code, is_night=False):
     if wmo_code == 0:
