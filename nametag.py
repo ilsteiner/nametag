@@ -225,7 +225,7 @@ try:
     greeting_coord = (row1x, row1y)
     name_coord = (row1x + greeting_width + padding, row1y)
     sun_icon_size = 75
-    sun_coord = (math.trunc((row1x + name_width + padding + greeting_width + padding * 2)),row1y)
+    sun_coord = (math.trunc((row1x + name_width + padding + greeting_width + padding * 1.5)),row1y)
     sun_text_coord = (row1x + name_width + padding + greeting_width + padding, row1y + sun_icon_size)
 
     # Row 2 (Pronouns)
@@ -321,8 +321,8 @@ try:
         today_icon = Image.alpha_composite(icon_background, today_icon)
         tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)
 
-        today_icon_y = today_block_y + ((block_height - today_card_label_height - icon_size[0] - padding * 3))
-        tomorrow_icon_y = tomorrow_block_y + ((block_height - tomorrow_card_label_height - icon_size[0] - padding * 3))
+        today_icon_y = today_block_y + ((block_height - today_card_label_height - icon_size[0] - padding))
+        tomorrow_icon_y = tomorrow_block_y + ((block_height - tomorrow_card_label_height - icon_size[0] - padding))
 
         # Paste icons into image
         image.paste(today_icon, (today_block_x + padding, math.trunc(tomorrow_icon_y)))
