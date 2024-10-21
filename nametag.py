@@ -140,7 +140,8 @@ try:
     logging.info("1.Drawing the image...")
     
     # Create an image to draw on
-    image = Image.new('RGB', (epd.width, epd.height), (255, 255, 255))  # White background
+    background_color = (255,255,255)
+    image = Image.new('RGB', (epd.width, epd.height), background_color)  # White background
     draw = ImageDraw.Draw(image)
 
     try:
@@ -196,18 +197,48 @@ try:
     draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
     draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
 
-        # Row 3 (Weather Forecast - Today and Tomorrow)
+    # Row 3 (Weather Forecast - Today and Tomorrow)
     row3y = row2y + pronouns_height + 2 * padding
     block_width = (epd.width - 3 * margin) // 2  # Divide the width into two blocks with a margin in between
     block_height = epd.height - row3y - margin  # Adjust height to fit within the screen, considering margin
 
-    # Today's Forecast Block
+    # Settings for drop shadow and card
+    shadow_offset = 10
+    shadow_color = (150, 150, 150)  # Gray for shadow
+    card_color = (230, 230, 230)  # Light gray for card
+    card_radius = 15
+
+    # Today's Forecast Block with shadow
     today_block_x = margin
     today_block_y = row3y
 
-    # Tomorrow's Forecast Block
+    draw.rounded_rectangle(
+        [today_block_x + shadow_offset, today_block_y + shadow_offset, 
+        today_block_x + block_width + shadow_offset, today_block_y + block_height + shadow_offset],
+        radius=card_radius, fill=shadow_color
+    )
+
+    draw.rounded_rectangle(
+        [today_block_x, today_block_y, 
+        today_block_x + block_width, today_block_y + block_height],
+        radius=card_radius, fill=card_color
+    )
+
+    # Tomorrow's Forecast Block with shadow
     tomorrow_block_x = today_block_x + block_width + margin
     tomorrow_block_y = today_block_y
+
+    draw.rounded_rectangle(
+        [tomorrow_block_x + shadow_offset, tomorrow_block_y + shadow_offset, 
+        tomorrow_block_x + block_width + shadow_offset, tomorrow_block_y + block_height + shadow_offset],
+        radius=card_radius, fill=shadow_color
+    )
+
+    draw.rounded_rectangle(
+        [tomorrow_block_x, tomorrow_block_y, 
+        tomorrow_block_x + block_width, tomorrow_block_y + block_height],
+        radius=card_radius, fill=card_color
+    )
 
     # Load and paste weather icons for today and tomorrow
     try:
@@ -216,13 +247,13 @@ try:
 
         # Resize and fix backgrounds icons to fit within the forecast block
         icon_size = (100, 100)
-        white_background = Image.new("RGBA", icon_size, (255,255,255))
+        icon_background = Image.new("RGBA", icon_size, card_color)
 
         today_icon = today_icon.resize(icon_size)
         tomorrow_icon = tomorrow_icon.resize(icon_size)
 
-        today_icon = Image.alpha_composite(white_background, today_icon)
-        tomorrow_icon = Image.alpha_composite(white_background, tomorrow_icon)        
+        today_icon = Image.alpha_composite(icon_background, today_icon)
+        tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)        
 
         # Paste icons into image
         image.paste(today_icon, (today_block_x + padding, today_block_y + padding))
