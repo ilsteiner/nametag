@@ -133,7 +133,7 @@ def get_weather_icon_path(wmo_code, is_night=False):
         return "icons/PNG/512/unknown.png"  # Default icon if code is unknown
 
 # Determine if it's night based on the current time and sunset time
-current_time = datetime.now()
+current_time = datetime.now(tz=timezone)
 fallback_sunset = datetime.combine(datetime.now().date(), time(17, 0))
 logging.info("Sunset: " + str(today_sunset))
 
@@ -215,7 +215,7 @@ try:
     draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
     draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
     
-    sun_info = get_next_sun_event(datetime.now(),today_sunrise,today_sunset,tomorrow_sunrise)
+    sun_info = get_next_sun_event(datetime.now(tz=timezone),today_sunrise,today_sunset,tomorrow_sunrise)
 
     sun_icon = Image.open(sun_info[1]).convert("RGBA")
     sun_icon = sun_icon.resize((sun_icon_size, sun_icon_size))
