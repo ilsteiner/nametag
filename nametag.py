@@ -218,7 +218,7 @@ try:
 
     image.paste(sun_icon, sun_coord, sun_icon)
 
-    draw.text(sun_text_coord, sun_info[2], font=font_small, fill=(0,0,0))
+    draw.text(sun_text_coord, sun_info[2].strftime("%I:%M %p"), font=font_small, fill=(0,0,0))
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3y = row2y + pronouns_height + padding
