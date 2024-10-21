@@ -78,6 +78,18 @@ tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
 tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0))
 tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0))
 
+def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunrise):
+    # Determine which event is next: sunrise or sunset
+    sunrise_icon_path = "icons/sunrise.png"
+    sunset_icon_path = "icons/sunset.png"
+
+    if today_sunrise > current_time:
+        return ("Sunrise", sunrise_icon_path, today_sunrise)
+    elif today_sunset > current_time:
+        return ("Sunset", sunset_icon_path, today_sunset)
+    else:
+        return ("Sunrise", sunrise_icon_path, tomorrow_sunrise)
+
 def get_weather_icon_path(wmo_code, is_night=False):
     if wmo_code == 0:
         return "icons/PNG/512/night_half_moon_clear.png" if is_night else "icons/PNG/512/day_clear.png"
@@ -151,15 +163,11 @@ try:
         font_small = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 40)
         font_tiny = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 20)
         font_micro = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 16)
-        # font_emoji = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf', 75)
-        # font_emoji2 = ImageFont.truetype('/usr/share/fonts/truetype/font-awesome/fontawesome-webfont.ttf', 75)
     except IOError:
         print("Font file not found. Using default.")
         font_large = ImageFont.load_default()
         font_small = ImageFont.load_default()
         font_tiny = ImageFont.load_default()
-        # font_emoji = ImageFont.load_default()
-        # font_emoji2 = ImageFont.load_default()
 
     # Text strings
     greeting = "I'm"
@@ -185,6 +193,7 @@ try:
     row1y = margin
     greeting_coord = (row1x, row1y)
     name_coord = (row1x + greeting_width + padding, row1y)
+    sun_coord = (row1x + name_width + padding + greeting_width + padding, row1y)
 
     # Row 2 (Pronouns)
     row2x = margin
@@ -195,10 +204,14 @@ try:
     row3x = margin
     row3y = row2y + pronouns_height + padding
 
-    # Draw greeting, name, pronouns
+    # Draw greeting, name, pronouns, and sun info
     draw.text(greeting_coord, greeting, font=font_large, fill=(0, 0, 0))
     draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
     draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
+    
+    sun_info = get_next_sun_event(datetime.now(),today_sunrise,today_sunset,tomorrow_sunrise)
+
+    image.paste(sun_info[1], sun_coord)
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3y = row2y + pronouns_height + padding
