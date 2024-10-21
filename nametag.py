@@ -12,6 +12,7 @@ import requests_cache
 from retry_requests import retry
 import math
 from datetime import datetime, time
+import pytz
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
@@ -19,6 +20,9 @@ retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
 openmeteo = openmeteo_requests.Client(session=retry_session)
 
 logging.basicConfig(level=logging.DEBUG)
+
+timezone_string = "America/Los_Angeles"
+timezone = pytz.timezone(timezone_string)
 
 # Make sure all required weather variables are listed here
 url = "https://api.open-meteo.com/v1/forecast"
@@ -29,7 +33,7 @@ params = {
 	"temperature_unit": "fahrenheit",
 	"wind_speed_unit": "mph",
 	"precipitation_unit": "inch",
-	"timezone": "America/Los_Angeles",
+	"timezone": timezone_string,
     "forecast_days": 2
 }
 responses = openmeteo.weather_api(url, params=params)
@@ -68,15 +72,15 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0))
-today_sunset = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunset"].ValuesInt64(0))
+today_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0),tz=timezone)
+today_sunset = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunset"].ValuesInt64(0),tz=timezone)
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0))
-tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0))
+tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0),tz=timezone)
+tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0),tz=timezone)
 
 def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunrise):
     # Determine which event is next: sunrise or sunset
@@ -194,7 +198,7 @@ try:
     greeting_coord = (row1x, row1y)
     name_coord = (row1x + greeting_width + padding, row1y)
     sun_icon_size = 75
-    sun_coord = (math.trunc((row1x + name_width + padding + greeting_width) + (epd.width - row1x + name_width + padding + greeting_width - sun_icon_size)/2),row1y)
+    sun_coord = (math.trunc((row1x + name_width + padding + greeting_width + padding)),row1y)
     sun_text_coord = (row1x + name_width + padding + greeting_width + padding, row1y + sun_icon_size)
 
     # Row 2 (Pronouns)
