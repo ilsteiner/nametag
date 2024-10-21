@@ -194,7 +194,7 @@ try:
     greeting_coord = (row1x, row1y)
     name_coord = (row1x + greeting_width + padding, row1y)
     sun_icon_size = 75
-    sun_coord = (row1x + name_width + padding + greeting_width + padding * 2, row1y)
+    sun_coord = (((epd.width - (row1x + name_width + padding + greeting_width)) - sun_icon_size)/2, row1y)
     sun_text_coord = (row1x + name_width + padding + greeting_width + padding, row1y + sun_icon_size)
 
     # Row 2 (Pronouns)
