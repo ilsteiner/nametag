@@ -216,7 +216,7 @@ try:
 
         # Resize and fix backgrounds icons to fit within the forecast block
         icon_size = (100, 100)
-        white_background = Image.new("RGB", icon_size, (255,255,255))
+        white_background = Image.new("RGBA", icon_size, (255,255,255))
 
         today_icon = today_icon.resize(icon_size)
         tomorrow_icon = tomorrow_icon.resize(icon_size)
