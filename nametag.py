@@ -49,6 +49,10 @@ def get_sun_event_timestamps(daily_dataframe, timezone):
     today_sunset = today_sunset_utc.astimezone(timezone)
     tomorrow_sunrise = tomorrow_sunrise_utc.astimezone(timezone)
 
+    logging.info("Sunrise today:" + str(today_sunrise))
+    logging.info("Sunset today:" + str(today_sunset))
+    logging.info("Sunrise tomorrow:" + str(tomorrow_sunrise))
+
     return today_sunrise, today_sunset, tomorrow_sunrise
 
 response = responses[0]
@@ -151,13 +155,8 @@ def get_weather_icon_path(wmo_code_float, is_night=False):
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now(tz=timezone)
 fallback_sunset = datetime.combine(datetime.now().date(), time(17, 0))
-logging.info("Sunrise:" + str(today_sunrise))
-logging.info("Sunset: " + str(today_sunset))
 
 is_night = current_time > today_sunset or current_time > fallback_sunset
-
-logging.info("Today code: " + str(math.trunc(float(today_weather_code))))
-logging.info("Tomorrow code: " + str(math.trunc(float(tomorrow_weather_code))))
 
 # Get appropriate icons for today and tomorrow
 weather_icon_today_path = get_weather_icon_path(today_weather_code, is_night)
