@@ -85,17 +85,14 @@ def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunri
     sunrise_icon_path = "icons/sunrise.png"
     sunset_icon_path = "icons/sunset.png"
 
-    result = ("","","")
-
-    if today_sunrise > current_time:
-        result = ("Sunrise", sunrise_icon_path, today_sunrise)
-    elif today_sunset > current_time:
-        result = ("Sunset", sunset_icon_path, today_sunset)
-    else:
-        result = ("Sunrise", sunrise_icon_path, tomorrow_sunrise)
-    
     logging.info("Getting sun events: sunrise " + str(today_sunrise) + " sunset " + str(today_sunset))
-    return result
+
+    if current_time < today_sunrise:
+        return ("Sunrise", sunrise_icon_path, today_sunrise)
+    elif current_time < today_sunset:
+        return ("Sunset", sunset_icon_path, today_sunset)
+    else:
+        return ("Sunrise", sunrise_icon_path, tomorrow_sunrise)
 
 def get_weather_icon_path(wmo_code_float, is_night=False):
     wmo_code = math.trunc(float(wmo_code_float))
