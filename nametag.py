@@ -277,13 +277,13 @@ try:
         print(f"Could not load icon: {e}")
 
     # Draw forecast texts
-    draw.text((today_block_x + padding + icon_size[0], today_block_y + padding * 1), f"Max: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding + icon_size[0], today_block_y + padding * 2), f"Min: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding + icon_size[0], today_block_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_block_y + today_card_label_height + padding * 1), f"Max: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_block_y + today_card_label_height + padding * 2), f"Min: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_block_y + today_card_label_height + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
-    draw.text((tomorrow_block_x + padding + icon_size[0], tomorrow_block_y + padding * 1), f"Max: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding + icon_size[0], tomorrow_block_y + padding * 2), f"Min: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding + icon_size[0], tomorrow_block_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_block_y + tomorrow_card_label_height + padding * 1), f"Max: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_block_y + tomorrow_card_label_height + padding * 2), f"Min: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_block_y + tomorrow_card_label_height + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
