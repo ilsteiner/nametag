@@ -93,8 +93,8 @@ def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunri
         return ("Sunrise", sunrise_icon_path, tomorrow_sunrise)
 
 def get_weather_icon_path(wmo_code_float, is_night=False):
-    wmo_code = math.trunc(wmo_code_float)
-    
+    wmo_code = math.trunc(float(wmo_code_float))
+
     if wmo_code == 0:
         return "icons/PNG/512/night_half_moon_clear.png" if is_night else "icons/PNG/512/day_clear.png"
     elif wmo_code == 1:
