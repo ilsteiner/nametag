@@ -39,6 +39,19 @@ params = {
 }
 responses = openmeteo.weather_api(url, params=params)
 
+def get_sun_event_timestamps(daily_dataframe, timezone):
+    # Extract sunrise and sunset times for today and tomorrow from the dataframe and convert them properly to local time
+    today_sunrise_utc = datetime.fromtimestamp(daily_dataframe.iloc[0]["sunrise"].ValuesInt64(0), tz=pytz.UTC)
+    today_sunset_utc = datetime.fromtimestamp(daily_dataframe.iloc[0]["sunset"].ValuesInt64(0), tz=pytz.UTC)
+    tomorrow_sunrise_utc = datetime.fromtimestamp(daily_dataframe.iloc[1]["sunrise"].ValuesInt64(0), tz=pytz.UTC)
+    
+    # Convert times from UTC to the local timezone
+    today_sunrise = pytz.UTC.localize(today_sunrise_utc).astimezone(timezone)
+    today_sunset = pytz.UTC.localize(today_sunset_utc).astimezone(timezone)
+    tomorrow_sunrise = pytz.UTC.localize(tomorrow_sunrise_utc).astimezone(timezone)
+
+    return today_sunrise, today_sunset, tomorrow_sunrise
+
 response = responses[0]
 
 # Process daily data for today and tomorrow
@@ -71,15 +84,14 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
-today_sunset = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunset"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
+today_sunrise = get_sun_event_timestamps(daily, timezone)[0]
+today_sunset = get_sun_event_timestamps(daily, timezone)[1]
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
-tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
+tomorrow_sunrise = get_sun_event_timestamps(daily, timezone)[2]
 
 def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunrise):
     # Determine which event is next: sunrise or sunset
