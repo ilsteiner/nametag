@@ -258,7 +258,7 @@ try:
         tomorrow_icon = Image.open(weather_icon_tomorrow_path).convert("RGBA")
 
         # Resize and fix backgrounds icons to fit within the forecast block
-        icon_size = (90, 90)
+        icon_size = (80, 80)
         icon_background = Image.new("RGBA", icon_size, card_color)
 
         today_icon = today_icon.resize(icon_size)
@@ -275,13 +275,13 @@ try:
         print(f"Could not load icon: {e}")
 
     # Draw forecast texts
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 3 * padding), f"Max: {today_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 4 * padding), f"Min: {today_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 5 * padding), f"Precip: {today_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 2 * padding), f"Max: {today_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 3 * padding), f"Min: {today_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 4 * padding), f"Precip: {today_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
 
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 3 * padding), f"Max: {tomorrow_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 4 * padding), f"Min: {tomorrow_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 5 * padding), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 2 * padding), f"Max: {tomorrow_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 3 * padding), f"Min: {tomorrow_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 4 * padding), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
