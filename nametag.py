@@ -198,7 +198,7 @@ try:
     draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
-    row3y = row2y + pronouns_height + 2 * padding
+    row3y = row2y + pronouns_height + padding
     block_width = (epd.width - 3 * margin) // 2  # Divide the width into two blocks with a margin in between
     block_height = epd.height - row3y - margin  # Adjust height to fit within the screen, considering margin
 
