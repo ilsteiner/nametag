@@ -269,8 +269,8 @@ try:
         today_icon = Image.alpha_composite(icon_background, today_icon)
         tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)
 
-        today_icon_y = block_height - (today_block_y + today_card_label_height + padding) - icon_size - padding / 2
-        tomorrow_icon_y = block_height - (tomorrow_block_y + tomorrow_card_label_height + padding) - icon_size - padding / 2
+        today_icon_y = (block_height - today_card_label_height - icon_size - padding * 2)/2
+        tomorrow_icon_y = (block_height - tomorrow_card_label_height - icon_size - padding * 2)/2
 
         # Paste icons into image
         image.paste(today_icon, (today_block_x + padding, today_icon_y))
