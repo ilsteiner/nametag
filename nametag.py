@@ -234,7 +234,7 @@ try:
 
     # Settings for drop shadow and card
     shadow_offset = 10
-    shadow_color = (120, 120, 120)  # Gray for shadow
+    shadow_color = (255, 255, 255)  # Gray for shadow
     card_color = (43, 117, 63)  # Green for card
     card_radius = 15
 
