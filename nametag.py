@@ -13,6 +13,7 @@ from retry_requests import retry
 import math
 from datetime import datetime, time
 import pytz
+from geopy.geocoders import Nominatim
 
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
@@ -24,11 +25,21 @@ logging.basicConfig(level=logging.DEBUG)
 timezone_string = "America/Los_Angeles"
 timezone = pytz.timezone(timezone_string)
 
+def get_lat_long(location_name):
+    geolocator = Nominatim(user_agent="geo_app")
+    location = geolocator.geocode(location_name)
+    if location:
+        return location.latitude, location.longitude
+    else:
+        return None, None
+
+lattitude, longitude = get_lat_long("Seattle, WA")
+
 # Make sure all required weather variables are listed here
 url = "https://api.open-meteo.com/v1/forecast"
 params = {
-	"latitude": 52.52,
-	"longitude": 13.41,
+	"latitude": lattitude,
+	"longitude": longitude,
 	"daily": ["weather_code", "temperature_2m_max", "temperature_2m_min", "sunrise", "sunset", "precipitation_probability_max"],
 	"temperature_unit": "fahrenheit",
 	"wind_speed_unit": "mph",
