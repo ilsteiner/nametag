@@ -76,35 +76,27 @@ tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
 tomorrow_sunrise = weather_dataframe.iloc[1]['sunrise']
 tomorrow_sunset = weather_dataframe.iloc[1]["sunset"]
 
-def get_weather_icon_path(weather_code, is_night=False):
-    day_icons = {
-        0: "icons/PNG/512/day_clear.png",                           # Clear sky
-        1: "icons/PNG/512/day_partial_cloud.png",                   # Mainly clear
-        2: "icons/PNG/512/cloudy.png",                              # Partly cloudy
-        3: "icons/PNG/512/overcast.png",                            # Overcast
-        45: "icons/PNG/512/fog.png",                                # Fog
-        51: "icons/PNG/512/mist.png",                               # Mist
-        61: "icons/PNG/512/rain.png",                               # Rain
-        71: "icons/PNG/512/snow.png",                               # Snow
-        95: "icons/PNG/512/thunder.png",                            # Thunderstorm
-    }
-
-    night_icons = {
-        0: "icons/PNG/512/night_half_moon_clear.png",               # Clear night
-        1: "icons/PNG/512/night_half_moon_partial_cloud.png",       # Partially cloudy night
-        2: "icons/PNG/512/cloudy.png",                              # Partly cloudy night
-        3: "icons/PNG/512/overcast.png",                            # Overcast night
-        45: "icons/PNG/512/fog.png",                                # Fog at night
-        51: "icons/PNG/512/mist.png",                               # Mist at night
-        61: "icons/PNG/512/night_half_moon_rain.png",               # Rain at night
-        71: "icons/PNG/512/night_half_moon_snow.png",               # Snow at night
-        95: "icons/PNG/512/thunder.png",                            # Thunderstorm at night
-    }
-
-    if is_night:
-        return night_icons.get(weather_code, "icons/PNG/512/unknown.png")  # Default icon if code is unknown
+def get_weather_icon_path(wmo_code, is_night=False):
+    if wmo_code == 0:
+        return "icons/PNG/128/night_half_moon_clear.png" if is_night else "icons/PNG/128/day_clear.png"
+    elif 1 <= wmo_code <= 3:
+        return "icons/PNG/128/night_half_moon_partial_cloud.png" if is_night else "icons/PNG/128/day_partial_cloud.png"
+    elif wmo_code == 4:
+        return "icons/PNG/128/overcast.png"
+    elif 45 <= wmo_code <= 49:
+        return "icons/PNG/128/fog.png"
+    elif 50 <= wmo_code <= 59:
+        return "icons/PNG/128/mist.png"
+    elif 60 <= wmo_code <= 69:
+        return "icons/PNG/128/rain.png"
+    elif 70 <= wmo_code <= 79:
+        return "icons/PNG/128/snow.png"
+    elif 80 <= wmo_code <= 82:
+        return "icons/PNG/128/rain.png"
+    elif 95 <= wmo_code <= 99:
+        return "icons/PNG/128/thunder.png"
     else:
-        return day_icons.get(weather_code, "icons/PNG/512/unknown.png")    # Default icon if code is unknown
+        return "icons/PNG/128/unknown.png"
 
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now()
