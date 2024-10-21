@@ -275,13 +275,13 @@ try:
         print(f"Could not load icon: {e}")
 
     # Draw forecast texts
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 2 * padding), f"Max: {today_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 3 * padding), f"Min: {today_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 4 * padding), f"Precip: {today_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 3 * padding), f"Max: {today_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 4 * padding), f"Min: {today_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 5 * padding), f"Precip: {today_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
 
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 2 * padding), f"Max: {tomorrow_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 3 * padding), f"Min: {tomorrow_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 4 * padding), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 3 * padding), f"Max: {tomorrow_max:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 4 * padding), f"Min: {tomorrow_min:.1f}°F", font=font_tiny, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 5 * padding), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_tiny, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
