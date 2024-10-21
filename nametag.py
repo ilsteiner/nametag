@@ -65,8 +65,6 @@ daily_data["precip"] = daily_precipitation_probability
 
 weather_dataframe = pd.DataFrame(data = daily_data)
 
-logging.info("Sunrise:" + str(datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0))))
-
 # Extract today's and tomorrow's data using iloc
 today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
@@ -94,7 +92,9 @@ def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunri
     else:
         return ("Sunrise", sunrise_icon_path, tomorrow_sunrise)
 
-def get_weather_icon_path(wmo_code, is_night=False):
+def get_weather_icon_path(wmo_code_float, is_night=False):
+    wmo_code = math.trunc(wmo_code_float)
+    
     if wmo_code == 0:
         return "icons/PNG/512/night_half_moon_clear.png" if is_night else "icons/PNG/512/day_clear.png"
     elif wmo_code == 1:
@@ -135,6 +135,7 @@ def get_weather_icon_path(wmo_code, is_night=False):
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now(tz=timezone)
 fallback_sunset = datetime.combine(datetime.now().date(), time(17, 0))
+logging.info("Sunrise:" + str(today_sunrise))
 logging.info("Sunset: " + str(today_sunset))
 
 is_night = current_time > today_sunset or current_time > fallback_sunset
