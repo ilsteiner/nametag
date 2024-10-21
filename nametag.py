@@ -215,7 +215,7 @@ try:
         tomorrow_icon = Image.open(weather_icon_tomorrow_path).convert("RGBA")
 
         # Resize and fix backgrounds icons to fit within the forecast block
-        icon_size = (75, 75)
+        icon_size = (100, 100)
         white_background = Image.new("RGB", icon_size, (255,255,255))
 
         today_icon = today_icon.resize(icon_size)
