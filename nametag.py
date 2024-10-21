@@ -78,25 +78,41 @@ tomorrow_sunset = weather_dataframe.iloc[1]["sunset"]
 
 def get_weather_icon_path(wmo_code, is_night=False):
     if wmo_code == 0:
-        return "icons/PNG/128/night_half_moon_clear.png" if is_night else "icons/PNG/128/day_clear.png"
-    elif 1 <= wmo_code <= 3:
-        return "icons/PNG/128/night_half_moon_partial_cloud.png" if is_night else "icons/PNG/128/day_partial_cloud.png"
+        return "icons/PNG/512/night_half_moon_clear.png" if is_night else "icons/PNG/512/day_clear.png"
+    elif wmo_code == 1:
+        return "icons/PNG/512/night_half_moon_partial_cloud.png" if is_night else "icons/PNG/512/day_partial_cloud.png"
+    elif wmo_code == 2 or wmo_code == 3:
+        return "icons/PNG/512/cloudy.png"
     elif wmo_code == 4:
-        return "icons/PNG/128/overcast.png"
+        return "icons/PNG/512/overcast.png"
     elif 45 <= wmo_code <= 49:
-        return "icons/PNG/128/fog.png"
-    elif 50 <= wmo_code <= 59:
-        return "icons/PNG/128/mist.png"
-    elif 60 <= wmo_code <= 69:
-        return "icons/PNG/128/rain.png"
+        return "icons/PNG/512/fog.png"
+    elif 50 <= wmo_code <= 53:
+        return "icons/PNG/512/mist.png"
+    elif 54 <= wmo_code <= 56:
+        return "icons/PNG/512/mist.png"  # Heavy mist could use the same icon for now
+    elif wmo_code == 57:
+        return "icons/PNG/512/fog.png"
+    elif 60 <= wmo_code <= 63:
+        return "icons/PNG/512/rain.png"
+    elif 64 <= wmo_code <= 67:
+        return "icons/PNG/512/day_rain.png" if not is_night else "icons/PNG/512/night_half_moon_rain.png"
+    elif 68 <= wmo_code <= 69:
+        return "icons/PNG/512/sleet.png"
     elif 70 <= wmo_code <= 79:
-        return "icons/PNG/128/snow.png"
-    elif 80 <= wmo_code <= 82:
-        return "icons/PNG/128/rain.png"
+        return "icons/PNG/512/snow.png"
+    elif wmo_code == 80:
+        return "icons/PNG/512/rain.png"
+    elif wmo_code == 81:
+        return "icons/PNG/512/rain_thunder.png"
+    elif wmo_code == 82:
+        return "icons/PNG/512/angry_clouds.png"
+    elif 85 <= wmo_code <= 86:
+        return "icons/PNG/512/snow_thunder.png"
     elif 95 <= wmo_code <= 99:
-        return "icons/PNG/128/thunder.png"
+        return "icons/PNG/512/thunder.png"
     else:
-        return "icons/PNG/128/unknown.png"
+        return "icons/PNG/512/unknown.png"  # Default icon if code is unknown
 
 # Determine if it's night based on the current time and sunset time
 current_time = datetime.now()
