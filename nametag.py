@@ -148,7 +148,7 @@ try:
         font_large = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 75)
         font_small = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 40)
         font_tiny = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 20)
-        font_micro = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 12)
+        font_micro = ImageFont.truetype('/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf', 16)
         # font_emoji = ImageFont.truetype('/usr/share/fonts/truetype/noto/NotoColorEmoji.ttf', 75)
         # font_emoji2 = ImageFont.truetype('/usr/share/fonts/truetype/font-awesome/fontawesome-webfont.ttf', 75)
     except IOError:
@@ -269,8 +269,8 @@ try:
         tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)        
 
         # Paste icons into image
-        image.paste(today_icon, (today_block_x + padding, today_block_y  + today_card_label_height + padding))
-        image.paste(tomorrow_icon, (tomorrow_block_x + padding, tomorrow_block_y + tomorrow_card_label_height + padding))
+        image.paste(today_icon, (today_block_x + padding, today_block_y  + today_card_label_height + padding * 2))
+        image.paste(tomorrow_icon, (tomorrow_block_x + padding, tomorrow_block_y + tomorrow_card_label_height + padding * 2))
 
     except IOError as e:
         print(f"Could not load icon: {e}")
