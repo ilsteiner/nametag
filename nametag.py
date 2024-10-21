@@ -70,15 +70,15 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
-today_sunset = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunset"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
+today_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0),tz=timezone)
+today_sunset = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunset"].ValuesInt64(0),tz=timezone)
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
-tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0),tz=pytz.UTC).astimezone(timezone)
+tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0),tz=timezone)
+tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0),tz=timezone)
 
 def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunrise):
     # Determine which event is next: sunrise or sunset
@@ -234,8 +234,8 @@ try:
 
     # Settings for drop shadow and card
     shadow_offset = 10
-    shadow_color = (150, 150, 150)  # Gray for shadow
-    card_color = (200, 200, 200)  # Light gray for card
+    shadow_color = (80, 80, 80)  # Gray for shadow
+    card_color = (150, 150, 150)  # Light gray for card
     card_radius = 15
 
     # Today's Forecast Block with shadow
