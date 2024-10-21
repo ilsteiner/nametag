@@ -211,13 +211,18 @@ try:
 
     # Load and paste weather icons for today and tomorrow
     try:
-        today_icon = Image.open(weather_icon_today_path)
-        tomorrow_icon = Image.open(weather_icon_tomorrow_path)
+        today_icon = Image.open(weather_icon_today_path).convert("RGBA")
+        tomorrow_icon = Image.open(weather_icon_tomorrow_path).convert("RGBA")
 
-        # Resize icons to fit within the forecast block
+        # Resize and fix backgrounds icons to fit within the forecast block
         icon_size = (75, 75)
+        white_background = Image.new("RGB", icon_size, (255,255,255))
+
         today_icon = today_icon.resize(icon_size)
         tomorrow_icon = tomorrow_icon.resize(icon_size)
+
+        today_icon = Image.alpha_composite(white_background, today_icon)
+        tomorrow_icon = Image.alpha_composite(white_background, tomorrow_icon)        
 
         # Paste icons into image
         image.paste(today_icon, (today_block_x + padding, today_block_y + padding))
