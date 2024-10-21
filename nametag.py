@@ -29,7 +29,6 @@ params = {
 	"temperature_unit": "fahrenheit",
 	"wind_speed_unit": "mph",
 	"precipitation_unit": "inch",
-    "timeformat": "unixtime",
 	"timezone": "America/Los_Angeles",
     "forecast_days": 2
 }
@@ -68,15 +67,15 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = weather_dataframe.iloc[0]['sunrise'][1]
-today_sunset = weather_dataframe.iloc[0]["sunset"][1]
+today_sunrise = weather_dataframe.iloc[0]['sunrise']
+today_sunset = weather_dataframe.iloc[0]["sunset"]
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-tomorrow_sunrise = weather_dataframe.iloc[1]['sunrise'][1]
-tomorrow_sunset = weather_dataframe.iloc[1]["sunset"][1]
+tomorrow_sunrise = weather_dataframe.iloc[1]['sunrise']
+tomorrow_sunset = weather_dataframe.iloc[1]["sunset"]
 
 def get_weather_icon_path(wmo_code, is_night=False):
     if wmo_code == 0:
@@ -120,7 +119,7 @@ def get_weather_icon_path(wmo_code, is_night=False):
 current_time = datetime.now()
 fallback_sunset = datetime.combine(datetime.now().date(), time(17, 0))
 logging.info("Sunset: " + str(today_sunset))
-sunset_time = datetime.fromtimestamp(today_sunset)
+sunset_time = datetime.fromisoformat(today_sunset)
 
 is_night = str(sunset_time) != "0" and (current_time > sunset_time or current_time > fallback_sunset)
 
