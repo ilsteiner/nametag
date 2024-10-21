@@ -234,8 +234,8 @@ try:
 
     # Settings for drop shadow and card
     shadow_offset = 10
-    shadow_color = (80, 80, 80)  # Gray for shadow
-    card_color = (150, 150, 150)  # Light gray for card
+    shadow_color = (120, 120, 120)  # Gray for shadow
+    card_color = (90, 166, 110)  # Green for card
     card_radius = 15
 
     # Today's Forecast Block with shadow
