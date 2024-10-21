@@ -45,13 +45,13 @@ def get_sun_event_timestamps(daily_dataframe, timezone):
     tomorrow_sunrise_utc = datetime.fromtimestamp(daily_dataframe.iloc[1]["sunrise"].ValuesInt64(0), tz=pytz.UTC)
     
     # Convert times from UTC to the local timezone
-    today_sunrise = today_sunrise_utc.astimezone(timezone)
-    today_sunset = today_sunset_utc.astimezone(timezone)
-    tomorrow_sunrise = tomorrow_sunrise_utc.astimezone(timezone)
+    # today_sunrise = today_sunrise_utc.astimezone(timezone)
+    # today_sunset = today_sunset_utc.astimezone(timezone)
+    # tomorrow_sunrise = tomorrow_sunrise_utc.astimezone(timezone)
 
-    logging.info("Sunrise today:" + str(today_sunrise))
-    logging.info("Sunset today:" + str(today_sunset))
-    logging.info("Sunrise tomorrow:" + str(tomorrow_sunrise))
+    logging.info("Sunrise today:" + str(today_sunrise_utc))
+    logging.info("Sunset today:" + str(today_sunset_utc))
+    logging.info("Sunrise tomorrow:" + str(tomorrow_sunrise_utc))
 
     return today_sunrise, today_sunset, tomorrow_sunrise
 
@@ -153,10 +153,9 @@ def get_weather_icon_path(wmo_code_float, is_night=False):
         return "icons/PNG/512/unknown.png"  # Default icon if code is unknown
 
 # Determine if it's night based on the current time and sunset time
-current_time = datetime.now(tz=timezone)
-fallback_sunset = datetime.combine(datetime.now().date(), time(17, 0))
+current_time = datetime.now(tz=pytz.UTC)
 
-is_night = current_time > today_sunset or current_time > fallback_sunset
+is_night = current_time > today_sunset
 
 # Get appropriate icons for today and tomorrow
 weather_icon_today_path = get_weather_icon_path(today_weather_code, is_night)
@@ -238,7 +237,7 @@ try:
 
     image.paste(sun_icon, sun_coord, sun_icon)
 
-    draw.text(sun_text_coord, sun_info[2].strftime("%I:%M %p"), font=font_tiny, fill=(0,0,0))
+    draw.text(sun_text_coord, sun_info[2].astimezone(timezone).strftime("%I:%M %p"), font=font_tiny, fill=(0,0,0))
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3y = row2y + pronouns_height + padding
