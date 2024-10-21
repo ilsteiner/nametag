@@ -42,8 +42,8 @@ logging.info("Daily" + str(daily))
 daily_weather_code = daily.Variables(0).ValuesAsNumpy()  # Weather codes for icons
 daily_temperature_2m_max = daily.Variables(1).ValuesAsNumpy()  # Max temps
 daily_temperature_2m_min = daily.Variables(2).ValuesAsNumpy()  # Min temps
-daily_sunrise = daily.Variables(3).ValuesAsNumpy() # Sunrise
-daily_sunset = daily.Variables(4).ValuesAsNumpy() # Sunset
+daily_sunrise = daily.Variables(3) # Sunrise
+daily_sunset = daily.Variables(4) # Sunset
 daily_precipitation_probability = daily.Variables(5).ValuesAsNumpy()  # Precipitation probabilities
 
 daily_data = {"date": pd.date_range(
@@ -61,7 +61,7 @@ daily_data["precip"] = daily_precipitation_probability
 
 weather_dataframe = pd.DataFrame(data = daily_data)
 
-logging.info("Sunrise:" + daily_sunrise)
+logging.info("Sunrise:" + daily_sunrise[0])
 
 # Extract today's and tomorrow's data using iloc
 today_max = weather_dataframe.iloc[0]["temp_high"]
