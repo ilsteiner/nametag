@@ -113,8 +113,8 @@ sunset_time = datetime.fromtimestamp(today_sunset)
 
 is_night = str(sunset_time) != "0" and current_time > sunset_time
 
-logging.info("Today code: " + today_weather_code)
-logging.info("Tomorrow code: " + tomorrow_weather_code)
+logging.info("Today code: " + str(today_weather_code))
+logging.info("Tomorrow code: " + str(tomorrow_weather_code))
 
 # Get appropriate icons for today and tomorrow
 weather_icon_today_path = get_weather_icon_path(today_weather_code, is_night)
