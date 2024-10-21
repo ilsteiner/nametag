@@ -211,7 +211,10 @@ try:
     
     sun_info = get_next_sun_event(datetime.now(),today_sunrise,today_sunset,tomorrow_sunrise)
 
-    image.paste(sun_info[1], sun_coord)
+    sun_icon = Image.open(sun_info[1]).convert("RGBA")
+    sun_icon = sun_icon.resize((50, 50))
+
+    image.paste(sun_icon, sun_coord, sun_icon)
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3y = row2y + pronouns_height + padding
