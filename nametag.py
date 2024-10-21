@@ -140,8 +140,8 @@ logging.info("Sunset: " + str(today_sunset))
 
 is_night = current_time > today_sunset or current_time > fallback_sunset
 
-logging.info("Today code: " + str(today_weather_code))
-logging.info("Tomorrow code: " + str(tomorrow_weather_code))
+logging.info("Today code: " + str(math.trunc(float(today_weather_code))))
+logging.info("Tomorrow code: " + str(math.trunc(float(tomorrow_weather_code))))
 
 # Get appropriate icons for today and tomorrow
 weather_icon_today_path = get_weather_icon_path(today_weather_code, is_night)
