@@ -68,15 +68,15 @@ today_max = weather_dataframe.iloc[0]["temp_high"]
 today_min = weather_dataframe.iloc[0]["temp_low"]
 today_precip_prob = weather_dataframe.iloc[0]["precip"]
 today_weather_code = weather_dataframe.iloc[0]["weather_code"]
-today_sunrise = datetime.fromtimestamp(daily_sunrise[0])
-today_sunset = datetime.fromtimestamp(daily_sunset[0])
+today_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunrise"].ValuesInt64(0))
+today_sunset = datetime.fromtimestamp(weather_dataframe.iloc[0]["sunset"].ValuesInt64(0))
 
 tomorrow_max = weather_dataframe.iloc[1]["temp_high"]
 tomorrow_min = weather_dataframe.iloc[1]["temp_low"]
 tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
-# tomorrow_sunrise = datetime.fromisoformat(daily_sunrise[1])
-# tomorrow_sunset = datetime.fromisoformat(daily_sunset[1])
+tomorrow_sunrise = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunrise"].ValuesInt64(0))
+tomorrow_sunset = datetime.fromtimestamp(weather_dataframe.iloc[1]["sunset"].ValuesInt64(0))
 
 def get_weather_icon_path(wmo_code, is_night=False):
     if wmo_code == 0:
