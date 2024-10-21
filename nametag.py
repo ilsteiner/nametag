@@ -130,15 +130,15 @@ weather_icon_tomorrow_path = get_weather_icon_path(tomorrow_weather_code, False)
 
 try:
     logging.info("Nametag start")
-    
+
     epd = epd5in65f.EPD()
     logging.info("init and Clear")
     epd.init()
     epd.Clear()
-    
+
     # Drawing on the Horizontal image
     logging.info("1.Drawing the image...")
-    
+
     # Create an image to draw on
     background_color = (255,255,255)
     image = Image.new('RGB', (epd.width, epd.height), background_color)  # White background
@@ -214,13 +214,13 @@ try:
     today_block_y = row3y
 
     draw.rounded_rectangle(
-        [today_block_x + shadow_offset, today_block_y + shadow_offset, 
+        [today_block_x + shadow_offset, today_block_y + shadow_offset,
         today_block_x + block_width + shadow_offset, today_block_y + block_height + shadow_offset],
         radius=card_radius, fill=shadow_color
     )
 
     draw.rounded_rectangle(
-        [today_block_x, today_block_y, 
+        [today_block_x, today_block_y,
         today_block_x + block_width, today_block_y + block_height],
         radius=card_radius, fill=card_color
     )
@@ -230,13 +230,13 @@ try:
     tomorrow_block_y = today_block_y
 
     draw.rounded_rectangle(
-        [tomorrow_block_x + shadow_offset, tomorrow_block_y + shadow_offset, 
+        [tomorrow_block_x + shadow_offset, tomorrow_block_y + shadow_offset,
         tomorrow_block_x + block_width + shadow_offset, tomorrow_block_y + block_height + shadow_offset],
         radius=card_radius, fill=shadow_color
     )
 
     draw.rounded_rectangle(
-        [tomorrow_block_x, tomorrow_block_y, 
+        [tomorrow_block_x, tomorrow_block_y,
         tomorrow_block_x + block_width, tomorrow_block_y + block_height],
         radius=card_radius, fill=card_color
     )
@@ -259,14 +259,14 @@ try:
         tomorrow_icon = Image.open(weather_icon_tomorrow_path).convert("RGBA")
 
         # Resize and fix backgrounds icons to fit within the forecast block
-        icon_size = (80, 80)
+        icon_size = (block_width/2 - margin - padding, block_width/2 - margin - padding)
         icon_background = Image.new("RGBA", icon_size, card_color)
 
         today_icon = today_icon.resize(icon_size)
         tomorrow_icon = tomorrow_icon.resize(icon_size)
 
         today_icon = Image.alpha_composite(icon_background, today_icon)
-        tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)        
+        tomorrow_icon = Image.alpha_composite(icon_background, tomorrow_icon)
 
         # Paste icons into image
         image.paste(today_icon, (today_block_x + padding, today_block_y  + today_card_label_height + padding * 2))
@@ -276,24 +276,24 @@ try:
         print(f"Could not load icon: {e}")
 
     # Draw forecast texts
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 2 * padding), f"Max: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 3 * padding), f"Min: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding, today_block_y + icon_size[1] + 4 * padding), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    # draw.text((today_block_x + padding, today_block_y + icon_size[1] + 2 * padding), f"Max: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    # draw.text((today_block_x + padding, today_block_y + icon_size[1] + 3 * padding), f"Min: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    # draw.text((today_block_x + padding, today_block_y + icon_size[1] + 4 * padding), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 2 * padding), f"Max: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 3 * padding), f"Min: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 4 * padding), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    # draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 2 * padding), f"Max: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    # draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 3 * padding), f"Min: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    # draw.text((tomorrow_block_x + padding, tomorrow_block_y + icon_size[1] + 4 * padding), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
 
     # Put the display to sleep to save power
     epd.sleep()
-    
+
 except IOError as e:
     logging.info(e)
 
-except KeyboardInterrupt:    
+except KeyboardInterrupt:
     logging.info("ctrl + c:")
     epd5in65f.epdconfig.module_exit(cleanup=True)
     exit()
