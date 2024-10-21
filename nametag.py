@@ -336,9 +336,9 @@ try:
     draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
     draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], tomorrow_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
