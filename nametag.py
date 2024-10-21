@@ -96,7 +96,7 @@ tomorrow_precip_prob = weather_dataframe.iloc[1]["precip"]
 tomorrow_weather_code = weather_dataframe.iloc[1]["weather_code"]
 tomorrow_sunrise = get_sun_event_timestamps(weather_dataframe, timezone)[2]
 
-def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunrise):
+def get_next_sun_event(today_sunrise, today_sunset, tomorrow_sunrise):
     # Determine which event is next: sunrise or sunset
     sunrise_icon_path = "icons/sunrise.png"
     sunset_icon_path = "icons/sunset.png"
@@ -104,9 +104,9 @@ def get_next_sun_event(current_time, today_sunrise, today_sunset, tomorrow_sunri
     logging.info("Getting sun events: sunrise UTC " + str(today_sunrise) + " sunset UTC " + str(today_sunset))
     logging.info("Getting sun events: sunrise local " + str(today_sunrise.astimezone(timezone)) + " sunset local " + str(today_sunset.astimezone(timezone)))
 
-    if current_time < today_sunrise:
+    if datetime.now(tz=timezone) < today_sunrise:
         return ("Sunrise", sunrise_icon_path, today_sunrise)
-    elif current_time < today_sunset:
+    elif datetime.now(tz=timezone) < today_sunset:
         return ("Sunset", sunset_icon_path, today_sunset)
     else:
         return ("Sunrise", sunrise_icon_path, tomorrow_sunrise)
@@ -231,7 +231,7 @@ try:
     draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
     draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
     
-    sun_info = get_next_sun_event(datetime.now(tz=timezone),today_sunrise,today_sunset,tomorrow_sunrise)
+    sun_info = get_next_sun_event(today_sunrise,today_sunset,tomorrow_sunrise)
 
     sun_icon = Image.open(sun_info[1]).convert("RGBA")
     sun_icon = sun_icon.resize((sun_icon_size, sun_icon_size))
