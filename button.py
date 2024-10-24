@@ -1,18 +1,14 @@
-import RPi.GPIO as GPIO
+from gpiozero import Button
+from signal import pause
 import subprocess
 
 BUTTON_PIN = 21
 
-GPIO.setmode(GPIO.BCM)
-GPIO.setup(BUTTON_PIN, GPIO.IN, pull_up_down=GPIO.PUD_UP)
+def button_pressed():
+    print("Button pressed! Running the script...")
+    subprocess.run(["/home/isaac/nametag/bin/python3", "/home/isaac/nametag/nametag.py"])
 
-def button_callback(channel):
-    subprocess.call(["systemctl", "start", "nametag.service"])
+button = Button(BUTTON_PIN, pull_up=True)
+button.when_pressed = button_pressed
 
-GPIO.add_event_detect(BUTTON_PIN, GPIO.FALLING, callback=button_callback, bouncetime=300)
-
-try:
-    while True:
-        pass
-except KeyboardInterrupt:
-    GPIO.cleanup()
+pause()  # Keeps the script running
