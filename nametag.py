@@ -369,13 +369,21 @@ try:
         print(f"Could not load icon: {e}")
 
     # Draw forecast texts
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {today_max:.1f}°F", font=font_micro, fill=COLOR_WHITE)
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font=font_micro, fill=COLOR_WHITE)
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=COLOR_WHITE)
+    draw_text_with_outline(draw, (today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {today_max:.1f}°F", font_micro)
+    draw_text_with_outline(draw, (today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font_micro)
+    draw_text_with_outline(draw, (today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font_micro)
 
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font=font_micro, fill=COLOR_WHITE)
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font=font_micro, fill=COLOR_WHITE)
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=COLOR_WHITE)
+    # draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {today_max:.1f}°F", font=font_micro, fill=COLOR_WHITE)
+    # draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font=font_micro, fill=COLOR_WHITE)
+    # draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=COLOR_WHITE)
+
+    draw_text_with_outline(draw, (tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font_micro)
+    draw_text_with_outline(draw, (tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font_micro)
+    draw_text_with_outline(draw, (tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font_micro)
+
+    # draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font=font_micro, fill=COLOR_WHITE)
+    # draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font=font_micro, fill=COLOR_WHITE)
+    # draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=COLOR_WHITE)
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
@@ -391,4 +399,3 @@ except KeyboardInterrupt:
     logging.info("ctrl + c:")
     epd5in65f.epdconfig.module_exit(cleanup=True)
     exit()
-c
