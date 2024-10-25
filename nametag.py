@@ -245,7 +245,7 @@ try:
     row2x = margin
     row2y = row1y + greeting_height + padding
     pronouns_coord = (row2x, row2y)
-    title_coord = (row2x + pronouns_width + padding/2, row2y + padding)
+    title_coord = (row2x + pronouns_width + padding/2, row2y + padding/2)
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3x = margin
