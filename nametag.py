@@ -15,6 +15,15 @@ from datetime import datetime, time
 import pytz
 from geopy.geocoders import Nominatim
 
+# Pure colors
+COLOR_BLACK = (0, 0, 0)        # Black
+COLOR_WHITE = (255, 255, 255)  # White
+COLOR_RED = (255, 0, 0)        # Red
+COLOR_GREEN = (0, 255, 0)      # Green
+COLOR_BLUE = (0, 0, 255)       # Blue
+COLOR_YELLOW = (255, 255, 0)   # Yellow
+COLOR_ORANGE = (255, 165, 0)   # Orange
+
 # Setup the Open-Meteo API client with cache and retry on error
 cache_session = requests_cache.CachedSession('.cache', expire_after=3600)
 retry_session = retry(cache_session, retries=5, backoff_factor=0.2)
@@ -259,7 +268,7 @@ try:
     # Settings for drop shadow and card
     shadow_offset = 10
     shadow_color = (120, 120, 120)  # Gray for shadow
-    card_color = (110, 184, 130)  # Green for card
+    card_color = COLOR_GREEN
     card_radius = 15
 
     # Today's Forecast Block with shadow
@@ -346,6 +355,7 @@ try:
     # Put the display to sleep to save power
     epd.sleep()
 
+
 except IOError as e:
     logging.info(e)
 
@@ -353,3 +363,4 @@ except KeyboardInterrupt:
     logging.info("ctrl + c:")
     epd5in65f.epdconfig.module_exit(cleanup=True)
     exit()
+c
