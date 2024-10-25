@@ -194,7 +194,7 @@ try:
     logging.info("1.Drawing the image...")
 
     # Create an image to draw on
-    background_color = (255,255,255)
+    background_color = COLOR_WHITE
     image = Image.new('RGB', (epd.width, epd.height), background_color)  # White background
     draw = ImageDraw.Draw(image)
 
@@ -213,6 +213,7 @@ try:
     greeting = "I'm"
     name = "Isaac!"
     pronouns = "he/him"
+    title = "board chair"
 
     # Calculate text sizes
     greeting_bbox = draw.textbbox((0, 0), greeting, font=font_large)
@@ -223,6 +224,9 @@ try:
 
     pronouns_bbox = draw.textbbox((0, 0), pronouns, font=font_small)
     pronouns_width, pronouns_height = pronouns_bbox[2] - pronouns_bbox[0], pronouns_bbox[3] - pronouns_bbox[1]
+
+    title_bbox = draw.textbbox((0, 0), title, font=font_small)
+    title_width, title_height = title_bbox[2] - title_bbox[0], title_bbox[3] - title_bbox[1]
 
     # Calculate positions for greeting and pronouns
     margin = 20
@@ -237,19 +241,21 @@ try:
     sun_coord = (math.trunc((row1x + name_width + padding + greeting_width + padding * 1.5)),row1y)
     sun_text_coord = (row1x + name_width + padding + greeting_width + padding, row1y + sun_icon_size)
 
-    # Row 2 (Pronouns)
+    # Row 2 (Pronouns + Title)
     row2x = margin
     row2y = row1y + greeting_height + padding
     pronouns_coord = (row2x, row2y)
+    title_coord = (row2x + pronouns_width + padding, row2y)
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3x = margin
     row3y = row2y + pronouns_height + padding
 
     # Draw greeting, name, pronouns, and sun info
-    draw.text(greeting_coord, greeting, font=font_large, fill=(0, 0, 0))
-    draw.text(name_coord, name, font=font_large, fill=(255, 0, 0))  # Red text for name
-    draw.text(pronouns_coord, pronouns, font=font_small, fill=(0, 0, 0))
+    draw.text(greeting_coord, greeting, font=font_large, fill=COLOR_BLACK)
+    draw.text(name_coord, name, font=font_large, fill=COLOR_RED)  # Red text for name
+    draw.text(pronouns_coord, pronouns, font=font_small, fill=COLOR_BLACK)
+    draw.text(title_coord, title, font=font_small, fill=COLOR_BLUE)
     
     sun_info = get_next_sun_event(today_sunrise,today_sunset,tomorrow_sunrise)
 
@@ -258,7 +264,7 @@ try:
 
     image.paste(sun_icon, sun_coord, sun_icon)
 
-    draw.text(sun_text_coord, sun_info[2].astimezone(timezone).strftime("%I:%M %p"), font=font_tiny, fill=(0,0,0))
+    draw.text(sun_text_coord, sun_info[2].astimezone(timezone).strftime("%I:%M %p"), font=font_tiny, fill=COLOR_BLACK)
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3y = row2y + pronouns_height + padding
@@ -312,8 +318,8 @@ try:
     tomorrow_card_label_bbox = draw.textbbox((0, 0), tomorrow_card_label_text, font=font_small)
     tomorrow_card_label_width, tomorrow_card_label_height = tomorrow_card_label_bbox[2] - tomorrow_card_label_bbox[0], tomorrow_card_label_bbox[3] - tomorrow_card_label_bbox[1]
 
-    draw.text((today_block_x + padding, today_block_y + padding),today_card_label_text,font=font_small,fill=(0,0,0))
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding),tomorrow_card_label_text,font=font_small,fill=(0,0,0))
+    draw.text((today_block_x + padding, today_block_y + padding),today_card_label_text,font=font_small,fill=COLOR_WHITE)
+    draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding),tomorrow_card_label_text,font=font_small,fill=COLOR_WHITE)
 
     # Load and paste weather icons for today and tomorrow
     try:
@@ -341,13 +347,13 @@ try:
         print(f"Could not load icon: {e}")
 
     # Draw forecast texts
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {today_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {today_max:.1f}°F", font=font_micro, fill=COLOR_WHITE)
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font=font_micro, fill=COLOR_WHITE)
+    draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=COLOR_WHITE)
 
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font=font_micro, fill=(0, 0, 0))
-    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=(0, 0, 0))
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font=font_micro, fill=COLOR_WHITE)
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font=font_micro, fill=COLOR_WHITE)
+    draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=COLOR_WHITE)
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
