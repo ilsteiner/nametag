@@ -245,7 +245,7 @@ try:
     row2x = margin
     row2y = row1y + greeting_height + padding
     pronouns_coord = (row2x, row2y)
-    title_coord = (row2x + pronouns_width + padding, row2y)
+    title_coord = (row2x + pronouns_width + padding/2, row2y)
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3x = margin
@@ -255,7 +255,7 @@ try:
     draw.text(greeting_coord, greeting, font=font_large, fill=COLOR_BLACK)
     draw.text(name_coord, name, font=font_large, fill=COLOR_RED)  # Red text for name
     draw.text(pronouns_coord, pronouns, font=font_small, fill=COLOR_BLACK)
-    draw.text(title_coord, title, font=font_small, fill=COLOR_BLUE)
+    draw.text(title_coord, title, font=font_tiny, fill=COLOR_BLUE)
     
     sun_info = get_next_sun_event(today_sunrise,today_sunset,tomorrow_sunrise)
 
@@ -318,8 +318,30 @@ try:
     tomorrow_card_label_bbox = draw.textbbox((0, 0), tomorrow_card_label_text, font=font_small)
     tomorrow_card_label_width, tomorrow_card_label_height = tomorrow_card_label_bbox[2] - tomorrow_card_label_bbox[0], tomorrow_card_label_bbox[3] - tomorrow_card_label_bbox[1]
 
-    draw.text((today_block_x + padding, today_block_y + padding),today_card_label_text,font=font_small,fill=COLOR_WHITE)
-    draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding),tomorrow_card_label_text,font=font_small,fill=COLOR_WHITE)
+    def draw_text_with_outline(draw, position, text, text_font, fill_color=COLOR_WHITE, outline_color=COLOR_BLACK):
+        """
+        Draw text with an outline.
+
+        :param draw: The ImageDraw object.
+        :param text: The text to be drawn.
+        :param position: A tuple (x, y) for the position of the text.
+        :param font: The font to be used for the text.
+        :param fill_color: The color to fill the text with (default is white).
+        :param outline_color: The color of the outline (default is black).
+        """
+        x, y = position
+
+        # Draw the outline by drawing multiple times slightly offset in the outline color
+        for offset in [(-1, -1), (1, -1), (-1, 1), (1, 1)]:
+            draw.text((x + offset[0], y + offset[1]), text, font=text_font, fill=outline_color)
+
+        # Draw the main text in the fill color
+        draw.text((x, y), text, font=text_font, fill=fill_color)
+
+    draw_text_with_outline(draw, (today_block_x + padding, today_block_y + padding), today_card_label_text,font_small)
+    draw_text_with_outline(draw, (tomorrow_block_x + padding, tomorrow_block_y + padding),tomorrow_card_label_text, font_small)
+    # draw.text((today_block_x + padding, today_block_y + padding),today_card_label_text,font=font_small,fill=COLOR_WHITE)
+    # draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding),tomorrow_card_label_text,font=font_small,fill=COLOR_WHITE)
 
     # Load and paste weather icons for today and tomorrow
     try:
