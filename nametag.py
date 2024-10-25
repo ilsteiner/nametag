@@ -245,7 +245,7 @@ try:
     row2x = margin
     row2y = row1y + greeting_height + padding
     pronouns_coord = (row2x, row2y)
-    title_coord = (row2x + pronouns_width + padding/2, row2y)
+    title_coord = (row2x + pronouns_width + padding/2, row2y + padding)
 
     # Row 3 (Weather Forecast - Today and Tomorrow)
     row3x = margin
@@ -340,9 +340,6 @@ try:
 
     draw_text_with_outline(draw, (today_block_x + padding, today_block_y + padding), today_card_label_text,font_small)
     draw_text_with_outline(draw, (tomorrow_block_x + padding, tomorrow_block_y + padding),tomorrow_card_label_text, font_small)
-    # draw.text((today_block_x + padding, today_block_y + padding),today_card_label_text,font=font_small,fill=COLOR_WHITE)
-    # draw.text((tomorrow_block_x + padding, tomorrow_block_y + padding),tomorrow_card_label_text,font=font_small,fill=COLOR_WHITE)
-
     # Load and paste weather icons for today and tomorrow
     try:
         today_icon = Image.open(weather_icon_today_path).convert("RGBA")
@@ -373,17 +370,9 @@ try:
     draw_text_with_outline(draw, (today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font_micro)
     draw_text_with_outline(draw, (today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font_micro)
 
-    # draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {today_max:.1f}°F", font=font_micro, fill=COLOR_WHITE)
-    # draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {today_min:.1f}°F", font=font_micro, fill=COLOR_WHITE)
-    # draw.text((today_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {today_precip_prob:.0f}%", font=font_micro, fill=COLOR_WHITE)
-
     draw_text_with_outline(draw, (tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font_micro)
     draw_text_with_outline(draw, (tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font_micro)
     draw_text_with_outline(draw, (tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font_micro)
-
-    # draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 1), f"High: {tomorrow_max:.1f}°F", font=font_micro, fill=COLOR_WHITE)
-    # draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 2), f"Low: {tomorrow_min:.1f}°F", font=font_micro, fill=COLOR_WHITE)
-    # draw.text((tomorrow_block_x + padding * 2 + icon_size[0], today_icon_y + padding * 3), f"Precip: {tomorrow_precip_prob:.0f}%", font=font_micro, fill=COLOR_WHITE)
 
     # Display the image on the e-paper
     epd.display(epd.getbuffer(image))
